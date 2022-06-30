@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterController2 : CreatureController
+public class MonsterControllerLong : CreatureController
 {
     //땅에 붙어있는 원거리 몬스터 컨트롤러
     Stat stat;

@@ -4837,6 +4837,7 @@ GameObject:
   - component: {fileID: 8082140640859755570}
   - component: {fileID: 4241262473640132406}
   - component: {fileID: -6724295999458733148}
+  - component: {fileID: 1641283795714532204}
   m_Layer: 12
   m_Name: Magic Missile
   m_TagString: Untagged
@@ -9684,6 +9685,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 10
   _attack: 10
+--- !u!114 &1641283795714532204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5003562569677301800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44ddcc928adb135449519bac91e11b9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUse: 0
 --- !u!1 &5888909651193843444
 GameObject:
   m_ObjectHideFlags: 0

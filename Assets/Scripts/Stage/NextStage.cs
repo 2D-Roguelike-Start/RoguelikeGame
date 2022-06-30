@@ -8,6 +8,8 @@ public class NextStage : MonoBehaviour
     {
         Stage1_Tutorial,
         Stage1_1,
+        Stage1_BatBoss,
+        Stage1_SpiderBoss,
     }
 
     public NextMapName nextMapNameType;
@@ -33,6 +35,9 @@ public class NextStage : MonoBehaviour
             case NextMapName.Stage1_1:
                 Debug.Log("stage1_1");
                 cam.offset.x = -46.71f; cam.offset.y = 20.42f;
+                CameraSet(cam.offset.x, cam.offset.y); break;
+            case NextMapName.Stage1_BatBoss:
+                cam.offset.x = -96.7f; cam.offset.y = 20.53f;
                 CameraSet(cam.offset.x, cam.offset.y); break;
         }
 

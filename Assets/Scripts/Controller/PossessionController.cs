@@ -25,8 +25,8 @@ public class PossessionController : MonoBehaviour
         go.gameObject.tag = "Player";
         go.gameObject.layer = (int)Define.Layer.Player;
 
-        if (go.GetComponent<MonsterController1>() != null) Destroy(go.GetComponent<MonsterController1>());
-        if (go.GetComponent<MonsterController2>() != null) Destroy(go.GetComponent<MonsterController2>());
+        if (go.GetComponent<MonsterControllerShort>() != null) Destroy(go.GetComponent<MonsterControllerShort>());
+        if (go.GetComponent<MonsterControllerLong>() != null) Destroy(go.GetComponent<MonsterControllerLong>());
         Destroy(go.GetComponent<Stat>());
 
         go.AddComponent<PlayerController>();

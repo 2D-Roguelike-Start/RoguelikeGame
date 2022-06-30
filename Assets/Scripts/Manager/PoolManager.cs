@@ -18,10 +18,8 @@ public class PoolManager
             Root = new GameObject().transform;
             Root.name = $"{original.name}_Root";
 
-            for (int i = 0; i < count; count++)
-            {
+            for (int i = 0; i < count; i++)
                 Push(Create());
-            }
         }
 
         Poolable Create()

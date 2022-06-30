@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MonsterController1 : CreatureController
+public class MonsterControllerShort : CreatureController
 {
     //땅에 붙어있는 근거리 몬스터 컨트롤러
     Stat stat;
@@ -48,7 +48,7 @@ public class MonsterController1 : CreatureController
         action = GetComponentInChildren<ActionController>();
 
         stat.Level = 1;
-        stat.MaxHp = 100;
+        stat.MaxHp = 10;
         stat.Hp = 10;
         stat.MoveSpeed = 2;
         stat.Attack = 10;

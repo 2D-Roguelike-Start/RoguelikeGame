@@ -43,8 +43,8 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        offset.x = Camera.main.transform.position.x;
-        offset.y = Camera.main.transform.position.y;
+        offset.x = Camera.main.transform.position.x; // 4.16f tutorial
+        offset.y = Camera.main.transform.position.y; //10.62f tutorial
 
         MinX = offset.x - 20.39f; MaxX = offset.x + 20.41f;
         MinY = offset.y - 12.32f; MaxY = offset.y + 13.68f;

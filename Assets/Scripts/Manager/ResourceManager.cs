@@ -17,7 +17,6 @@ public class ResourceManager
             if (go != null)
                 return go as T;
         }
-
         return Resources.Load<T>(path);
     }
 
@@ -27,7 +26,6 @@ public class ResourceManager
         if(original == null)
         {
             Debug.Log($"Failed to Load Prefab : {path}");
-
             return null;
         }
         if (original.GetComponent<Poolable>() != null)

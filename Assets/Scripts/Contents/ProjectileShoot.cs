@@ -19,6 +19,7 @@ public class ProjectileShoot : MonoBehaviour
 
     GameObject player;
     EffectController ef;
+
     string Effect;
     
     private void Start()
@@ -78,13 +79,11 @@ public class ProjectileShoot : MonoBehaviour
         if (ray.collider == null) Invoke("DestroyShot", 2);
         else
         {
-            if (ray.collider.gameObject.layer == (int)Define.Layer.Enemy)
+            if (ray.collider.gameObject.layer == (int)Define.Layer.Enemy &&
+                ray.collider.GetComponent<Stat>().Hp > 0)
             {
-                if (ray.collider.GetComponent<Stat>().Hp > 0)
-                {
-                    ef.EffectOn(ray.collider.transform, Effect);
-                    ray.collider.GetComponent<Stat>().Hp -= _attack;
-                }
+                ef.EffectOn(ray.collider.transform, Effect);
+                ray.collider.GetComponent<Stat>().Hp -= _attack;
                 Destroy(gameObject);
             }
             if (ray.collider.gameObject.layer == (int)Define.Layer.Floor)
@@ -108,13 +107,11 @@ public class ProjectileShoot : MonoBehaviour
         if (ray.collider == null) Invoke("DestroyShot", 2);
         else
         {
-            if (ray.collider.gameObject.layer == (int)Define.Layer.Player)
+            if (ray.collider.gameObject.layer == (int)Define.Layer.Player &&
+                PlayerStat.Hp > 0)
             {
-                if (PlayerStat.Hp > 0)
-                {
-                    ef.EffectOn(ray.collider.transform, Effect);
-                    PlayerStat.Hp -= _attack;
-                }
+                ef.EffectOn(ray.collider.transform, Effect);
+                PlayerStat.Hp -= _attack;
                 Destroy(gameObject);
             }
             if (ray.collider.gameObject.layer == (int)Define.Layer.Floor)
@@ -124,14 +121,14 @@ public class ProjectileShoot : MonoBehaviour
 
     public void DestroyShot()
     {
-        Destroy(gameObject);
+       Destroy(gameObject);
     }
 
     public void EffectSelect()
     {
-        ef = GameObject.Find("Effect").GetComponent<EffectController>();
+        ef = GameObject.Find("Effect").GetAddComponent<EffectController>();
         if (gameObject.name == "Arrow") Effect = "Blood";
-        else if (gameObject.name == "Magic Missile") Effect = "Magic Missile explosion"; //magic missile explosion
+        else if (gameObject.name == "Magic Missile") Effect = "Magic Missile explosion";
     }
         
 }
