@@ -12,7 +12,7 @@ TagManager:
   - Landing_Long
   - Flying_Short
   - Flying_Long
-  - New tag
+  - Boss
   layers:
   - Default
   - TransparentFX

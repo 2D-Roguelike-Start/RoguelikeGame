@@ -58,7 +58,8 @@ public class ProjectileController : MonoBehaviour
                     projectile.transform.position = gameObject.transform.parent.transform.position + new Vector3(-1, 1.4f, 0);
                 }
                 break;
-            
+           
+
         }
     }
 }
