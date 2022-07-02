@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3320593417767657389}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.172}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3594237635804917006}
@@ -4837,9 +4837,10 @@ GameObject:
   - component: {fileID: 8082140640859755570}
   - component: {fileID: 4241262473640132406}
   - component: {fileID: 1641283795714532204}
-  - component: {fileID: 5498306564665705099}
+  - component: {fileID: -4773381702304377332}
+  - component: {fileID: 3155938109739596033}
   m_Layer: 12
-  m_Name: Poison Missile
+  m_Name: Poison Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4853,7 +4854,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5003562569677301800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.43, y: 3.07, z: 0}
+  m_LocalPosition: {x: 0.43, y: 3.07, z: -0.38920358}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4879,7 +4880,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -9665,12 +9666,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.05868566, y: 0}
+  m_Offset: {x: 0.1848253, y: 0}
   serializedVersion: 2
-  m_Radius: 0.41610622
+  m_Radius: 0.3148253
 --- !u!114 &1641283795714532204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9684,7 +9685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUse: 0
---- !u!114 &5498306564665705099
+--- !u!114 &-4773381702304377332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9693,9 +9694,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 5003562569677301800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d2824867e6597142925d574ea26bb56, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b1359aa8760dd64baa9ea1f6d988625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &3155938109739596033
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5003562569677301800}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &5888909651193843444
 GameObject:
   m_ObjectHideFlags: 0
@@ -9862,7 +9884,7 @@ Transform:
   m_GameObject: {fileID: 8395914450960461349}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.041, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3594237635804917006}
@@ -9947,7 +9969,7 @@ Transform:
   m_GameObject: {fileID: 8857616188097907751}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3594237635804917006}

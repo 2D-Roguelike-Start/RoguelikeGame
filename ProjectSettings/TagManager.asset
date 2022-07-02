@@ -13,6 +13,7 @@ TagManager:
   - Flying_Short
   - Flying_Long
   - Boss
+  - Floor
   layers:
   - Default
   - TransparentFX
