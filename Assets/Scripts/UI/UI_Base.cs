@@ -53,7 +53,7 @@ public abstract class UI_Base : MonoBehaviour
     protected Image GetImage(int idx) { return Get<Image>(idx); }
 
     //이벤트 추가 메서드
-    public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
+    public static void BindEvent(GameObject go, Action action, Define.UIEvent type = Define.UIEvent.Click)
     {
         UI_EventController evt = Util.GetAddComponent<UI_EventController>(go);
 

@@ -6,9 +6,9 @@ using UnityEngine.EventSystems;
 
 public class UI_EventController : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointerClickHandler
 {
-    public Action<PointerEventData> OnClickHandler = null;
-    public Action<PointerEventData> OnBeginDragHandler = null;
-    public Action<PointerEventData> OnDragHandler = null;
+    public Action OnClickHandler = null;
+    public Action OnBeginDragHandler = null;
+    public Action OnDragHandler = null;
 
 
     public void OnPointerClick(PointerEventData eventData)
@@ -16,7 +16,7 @@ public class UI_EventController : MonoBehaviour, IBeginDragHandler, IDragHandler
         Debug.Log("OnClick!");
 
         if (OnClickHandler != null)
-            OnClickHandler.Invoke(eventData);
+            OnClickHandler.Invoke();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -24,7 +24,7 @@ public class UI_EventController : MonoBehaviour, IBeginDragHandler, IDragHandler
         Debug.Log("OnBeginDrag!");
 
         if (OnBeginDragHandler != null)
-            OnBeginDragHandler.Invoke(eventData);
+            OnBeginDragHandler.Invoke();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -32,7 +32,7 @@ public class UI_EventController : MonoBehaviour, IBeginDragHandler, IDragHandler
         Debug.Log("OnDrag!");
 
         if (OnDragHandler != null)
-            OnDragHandler.Invoke(eventData);
+            OnDragHandler.Invoke();
     }
 
     

@@ -57,7 +57,6 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        
         CameraArea();
     }
 

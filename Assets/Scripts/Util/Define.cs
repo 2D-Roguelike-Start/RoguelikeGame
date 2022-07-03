@@ -28,8 +28,8 @@ public class Define
 
     public enum Scene
     {
+        Title,
         Tutorial,
-        Stage1_1,
     }
 
 
