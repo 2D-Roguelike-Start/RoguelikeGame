@@ -10,7 +10,8 @@ public class ProjectileController : MonoBehaviour
 
     private void Start()
     {
-        parentName = gameObject.transform.parent.tag;
+        if (gameObject.transform.parent != null)
+            parentName = gameObject.transform.parent.tag;
         particle = GameObject.Find("Effect").GetComponent<EffectController>();
     }
 

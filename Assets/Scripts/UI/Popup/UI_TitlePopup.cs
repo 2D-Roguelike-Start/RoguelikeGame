@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Title : UI_Scene
+public class UI_TitlePopup : UI_Popup
 {
     enum GameObjects
     {
@@ -50,12 +50,14 @@ public class UI_Title : UI_Scene
 
     void OnClickStartButton()
     {
-        Debug.Log("OnClickStartButton");
+        Debug.Log("OnClickContinueButton");
         Managers.Scene.LoadScene(Define.Scene.Tutorial);
+        Managers.UI.ClosePopupUI(this);
     }
 
     void OnClickSettingButton()
     {
         Debug.Log("OnClickSettingButton");
+        Managers.UI.ShowPopupUI<UI_SettingPopup>();
     }
 }

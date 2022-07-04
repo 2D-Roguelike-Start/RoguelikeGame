@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //키보드에 뭔가가 들어왔을 때 실행
-    void OnKeyBoard()
+    public void OnKeyBoard()
     {
         RaycastHit2D raycasHit = Physics2D.Raycast(transform.position, Vector2.down, 0.3f, LayerMask.GetMask("Floor"));
         Debug.DrawRay(transform.position, new Vector2(0, -0.3f), Color.red);
@@ -206,7 +206,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //마우스에 (드래그 , 클릭) 들어왔을 때
-    void OnMouseClicked(Define.MouseEvent mouse)
+    public void OnMouseClicked(Define.MouseEvent mouse)
     {
         // 클릭상태이고 현재 플레이어가 Attack 상태가 아닐 때
         if(mouse == Define.MouseEvent.Click)
@@ -214,6 +214,7 @@ public class PlayerController : MonoBehaviour
             //빙의 가능한 상태
             if (ispossession)
             {
+                if (possession.GetClickedObject() == null) return;
                 // 반환되는 오브젝트가 적이다?
                 if (possession.GetClickedObject().layer == (int)Define.Layer.Enemy
                     && possession.GetClickedObject().GetComponent<Stat>().Hp <= 0)
