@@ -36,7 +36,7 @@ public class BossController_Bat : MonoBehaviour
 
         stat.Level = 1;
         stat.MaxHp = 300;
-        stat.Hp = 300;
+        stat.Hp = 1;
         stat.MoveSpeed = 5;
         stat.Attack = 12;
 
@@ -186,8 +186,12 @@ public class BossController_Bat : MonoBehaviour
     IEnumerator Blackout()
     {
         Blackout_Check = true;
-
+        Target.transform.Find("Bat_Blackout").gameObject.SetActive(true);
         yield return new WaitForSeconds(1);
         Set_NextPattern();
+    }
+    void OnDestroy()
+    {
+        Target.transform.Find("Bat_Blackout").gameObject.SetActive(false);
     }
 }
