@@ -2,13 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Bomb_Type
+{
+    DarkBall,
+    End
+}
+
 public class Bomb : MonoBehaviour
 {
     GameObject go = null;
+    public Bomb_Type Type = Bomb_Type.End;
+
+    //DarkBall
+    SpriteRenderer BallSprite;
+    Color BallColor;
 
     private void Start()
     {
         StartCoroutine("bomb");
+    }
+
+    private void Update()
+    {
+        if(Type == Bomb_Type.DarkBall)
+        {
+            if (BallSprite == null)
+            {
+                BallSprite = GetComponent<SpriteRenderer>();
+                BallColor = BallSprite.color;
+            }
+
+            BallColor.a += 0.003f;
+            BallSprite.color = BallColor;
+        }
     }
 
     IEnumerator bomb()
