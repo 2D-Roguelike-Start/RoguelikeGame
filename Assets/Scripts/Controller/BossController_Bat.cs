@@ -17,9 +17,6 @@ public class BossController_Bat : MonoBehaviour
     GameObject Target; //플레이어
     Patterns_Bat Next_Pattern = Patterns_Bat.End;
     Stat stat;
-    Rigidbody2D rigid;
-
-    float dir;
 
     int Skile_Count = 1; //몇번째 차례의 공격인가1
 
@@ -29,14 +26,13 @@ public class BossController_Bat : MonoBehaviour
     bool Blackout_Check = false;
 
     private void Start()
-    {
+    {  
         Target = GameObject.FindWithTag("Player");
         stat = gameObject.GetComponent<Stat>();
-        rigid = this.gameObject.GetComponent<Rigidbody2D>();
 
         stat.Level = 1;
         stat.MaxHp = 300;
-        stat.Hp = 1;
+        stat.Hp = 100;
         stat.MoveSpeed = 5;
         stat.Attack = 12;
 
@@ -98,13 +94,7 @@ public class BossController_Bat : MonoBehaviour
         if ((Mathf.Abs(Angle) > 90 && transform.localScale.x > 0 )
             ||(Mathf.Abs(Angle) <= 90  && transform.localScale.x < 0))
             transform.localScale = new Vector3(transform.localScale.x* - 1, transform.localScale.y, transform.localScale.z);
-        //Debug.Log($"Boss Hp : {stat.Hp}");
-    }
-    void LookDownPlayer()
-    {
-        float scale = transform.localScale.y;
-        dir = Target.transform.position.x > transform.position.x ? scale * (-1) : scale; //방향
-        transform.localScale = new Vector3(dir, scale, scale);
+        Debug.Log($"Boss Hp : {stat.Hp}");
     }
 
     IEnumerator Default_Att()
@@ -154,13 +144,19 @@ public class BossController_Bat : MonoBehaviour
         for (int i = 0; i < 3; i += 2)
         {
             yield return new WaitForSeconds(0.5f);
-            AirCut_WarningEffect[Warning_Num[0 + i]].SetActive(true);
-            AirCut_WarningEffect[Warning_Num[1 + i]].SetActive(true);
+            for(int j = 0; j < 2; ++j)
+            {
+                GameObject go = Managers.Resource.Instantiate("Effect/Death (Purple)");
+                go.transform.position = AirCut_WarningEffect[Warning_Num[j + i]].transform.position;
+            }
+
+            //AirCut_WarningEffect[Warning_Num[0 + i]].SetActive(true);
+            //AirCut_WarningEffect[Warning_Num[1 + i]].SetActive(true);
             yield return new WaitForSeconds(0.5f);
 
             //off
-            AirCut_WarningEffect[Warning_Num[0 + i]].SetActive(false);
-            AirCut_WarningEffect[Warning_Num[1 + i]].SetActive(false);
+            //AirCut_WarningEffect[Warning_Num[0 + i]].SetActive(false);
+            //AirCut_WarningEffect[Warning_Num[1 + i]].SetActive(false);
         }
 
         Set_NextPattern();

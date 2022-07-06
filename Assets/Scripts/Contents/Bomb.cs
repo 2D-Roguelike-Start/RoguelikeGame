@@ -40,8 +40,16 @@ public class Bomb : MonoBehaviour
     IEnumerator bomb()
     {
         yield return new WaitForSeconds(3f);
+
         go = Managers.Resource.Instantiate("Effect/Poison Explosion");
         go.transform.position = this.gameObject.transform.position;
-        Destroy(gameObject);
+
+        if (Type == Bomb_Type.DarkBall)
+        {
+            var main = go.GetComponent<ParticleSystem>().main;
+            main.startColor = new Color(1, 0, 1, 1);
+        }
+
+        Destroy(gameObject);        
     }
 }
