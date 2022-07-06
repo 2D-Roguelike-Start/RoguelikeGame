@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 1037
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 22
+  controlID: 177
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 42
+  controlID: 178
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 23
+  controlID: 118
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 142
+  controlID: 110
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -591,7 +591,7 @@ MonoBehaviour:
       containerId: overlay-toolbar__top
       floating: 0
       collapsed: 0
-      displayed: 1
+      displayed: 0
       snapOffset: {x: 0, y: 25}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
@@ -751,9 +751,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -69.03507, y: 34.29127, z: 0.97230494}
+    m_Target: {x: -20.798893, y: 13.7322035, z: 1.247375}
     speed: 2
-    m_Value: {x: -69.03507, y: 34.29127, z: 0.97230494}
+    m_Value: {x: -20.798893, y: 13.7322035, z: 1.247375}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -790,7 +790,7 @@ MonoBehaviour:
       m_Size: {x: 1, y: 1}
     zGrid:
       m_Fade:
-        m_Target: 0
+        m_Target: 1
         speed: 2
         m_Value: 1
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
@@ -804,9 +804,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 23.958622
+    m_Target: 12.141424
     speed: 2
-    m_Value: 23.958622
+    m_Value: 12.141424
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -953,7 +953,7 @@ MonoBehaviour:
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -102982
+  m_LastSelectedObjectID: -16810
 --- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -985,9 +985,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: a2a00000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: bce6fcfff0f7fcff8600fdffee0dfdff1421fdff7233fdff083cfdffe84cfdfff2eafdff66d3feff78e8feff9852ffff9a52ffff885dffff945dffff3064ffff3864fffffa65fffffc87ffff8c9cffffd69effffe89efffff09effffbc9fffff28aaffff7aaaffffa4adffff54c0ffff54c5ffff44c9fffffccbffff4ce0ffffaee0ffff32e5ffff04e7ffff2cfbfffff4ffffff
+      m_ExpandedIDs: 42d4ffff8ed4ffff1cdffffface9ffff2cfbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1052,22 +1052,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Resources/Data
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Resources/Data
   m_LastFoldersGridSize: 16
   m_LastProjectPath: "C:\\Users\\\uAE40\uC601\uC0C1\\Desktop\\RoguelikeGame"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 180}
-    m_SelectedIDs: dc650000
-    m_LastClickedID: 26076
-    m_ExpandedIDs: 0000000020650000226500002465000026650000286500002a6500002c6500002e65000030650000326500003465000036650000386500003a6500003c6500003e650000e0650000546c000000ca9a3b
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: fe6e0000
+    m_LastClickedID: 28414
+    m_ExpandedIDs: 00000000c46e0000c66e0000c86e0000ca6e0000cc6e0000ce6e0000d06e0000d26e0000d46e0000d66e0000d86e0000da6e0000dc6e0000de6e0000e06e0000e26e0000e46e0000e66e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1095,7 +1095,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000020650000226500002465000026650000286500002a6500002c6500002e65000030650000326500003465000036650000386500003a6500003c6500003e650000
+    m_ExpandedIDs: 00000000c46e0000c66e0000c86e0000ca6e0000cc6e0000ce6e0000d06e0000d26e0000d46e0000d66e0000d86e0000da6e0000dc6e0000de6e0000e06e0000e26e0000e46e0000e66e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1126,15 +1126,15 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: ea850000dc90000014a50000e083000032960000d4840000f0710000dc74000056740000c0740000607500005049010026800000b4b200001e44010000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: UI_TalkPopup
-      m_OriginalName: UI_TalkPopup
+      m_Name: DatajsonTest
+      m_OriginalName: DatajsonTest
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 99540
+      m_UserData: 58774
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
       m_OriginalEventType: 0
