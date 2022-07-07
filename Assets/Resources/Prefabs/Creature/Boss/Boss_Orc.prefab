@@ -483,7 +483,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: a6952e3c725b7d344974668742b47905, type: 2}
     - target: {fileID: 2130661334665395493, guid: a6c27bbe21007124ebdd0d6a184f61e3, type: 3}
       propertyPath: m_Name
-      value: PF Orc - C
+      value: Boss_Orc
       objectReference: {fileID: 0}
     - target: {fileID: 2130661334665395493, guid: a6c27bbe21007124ebdd0d6a184f61e3, type: 3}
       propertyPath: m_IsActive
@@ -547,6 +547,37 @@ PrefabInstance:
     - {fileID: 2130661334665395497, guid: a6c27bbe21007124ebdd0d6a184f61e3, type: 3}
     - {fileID: 9019584440446400901, guid: a6c27bbe21007124ebdd0d6a184f61e3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a6c27bbe21007124ebdd0d6a184f61e3, type: 3}
+--- !u!1 &4457692177186273517 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2130661333888579108, guid: a6c27bbe21007124ebdd0d6a184f61e3, type: 3}
+  m_PrefabInstance: {fileID: 2327593939415011017}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &1117839096
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4457692177186273517}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.67, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.72, y: 0.82}
+  m_EdgeRadius: 0
 --- !u!4 &4457692177422414819 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2130661334665395498, guid: a6c27bbe21007124ebdd0d6a184f61e3, type: 3}
@@ -593,6 +624,7 @@ MonoBehaviour:
   _maxhp: 0
   _attack: 0
   _moveSpeed: 0
+  Axe: {fileID: 4457692177186273517}
 --- !u!114 &1137143123
 MonoBehaviour:
   m_ObjectHideFlags: 0

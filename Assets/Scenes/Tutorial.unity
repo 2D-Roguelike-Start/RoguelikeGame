@@ -575,75 +575,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9ee15c2a41d08943a3ae8e7d4138787, type: 3}
---- !u!1001 &460181896
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1137143118, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: Axe
-      value: 
-      objectReference: {fileID: 1117839094}
-    - target: {fileID: 4457692177186273517, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_RootOrder
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -90.87
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 50.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414819, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414828, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_Name
-      value: Boss_Orc
-      objectReference: {fileID: 0}
-    - target: {fileID: 4457692177422414831, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
 --- !u!1001 &491403844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1627,37 +1558,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9ee15c2a41d08943a3ae8e7d4138787, type: 3}
---- !u!1 &1117839094 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4457692177186273517, guid: e2ea5ba09c6119f4d8bbcbb8b421931f, type: 3}
-  m_PrefabInstance: {fileID: 460181896}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &1117839096
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117839094}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.67, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.72, y: 0.82}
-  m_EdgeRadius: 0
 --- !u!1 &1198116031
 GameObject:
   m_ObjectHideFlags: 0
@@ -28671,7 +28571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!251 &6458796928620967212
 PlatformEffector2D:
   m_ObjectHideFlags: 0
