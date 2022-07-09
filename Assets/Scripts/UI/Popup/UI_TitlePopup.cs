@@ -43,14 +43,16 @@ public class UI_TitlePopup : UI_Popup
 
         GetButton((int)Buttons.StartButton).gameObject.BindEvent(OnClickStartButton);
         GetButton((int)Buttons.SettingButton).gameObject.BindEvent(OnClickSettingButton);
-        //GetButton((int)Buttons.ExitButton).gameObject.BindEvent(OnClickExitButton());
+        GetButton((int)Buttons.ExitButton).gameObject.BindEvent(OnClickExitButton);
 
-
+        Managers.Sound.Clear();
+        Managers.Sound.Play(Define.Sound.Bgm, "Sound_MainTitle");
     }
 
     void OnClickStartButton()
     {
         Debug.Log("OnClickContinueButton");
+        Managers.Sound.Play(Define.Sound.Effect, "Sound_UIButtonClick", UI_Setting_SoundPopup.EffectSound);
         Managers.Scene.LoadScene(Define.Scene.Tutorial);
         Managers.UI.ClosePopupUI(this);
     }
@@ -58,6 +60,18 @@ public class UI_TitlePopup : UI_Popup
     void OnClickSettingButton()
     {
         Debug.Log("OnClickSettingButton");
+        Managers.Sound.Play(Define.Sound.Effect, "Sound_UIButtonClick", UI_Setting_SoundPopup.EffectSound);
         Managers.UI.ShowPopupUI<UI_SettingPopup>();
+    }
+
+    void OnClickExitButton()
+    {
+        Debug.Log("OnClickExitButton");
+        Managers.Sound.Play(Define.Sound.Effect, "Sound_UIButtonClick", UI_Setting_SoundPopup.EffectSound);
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

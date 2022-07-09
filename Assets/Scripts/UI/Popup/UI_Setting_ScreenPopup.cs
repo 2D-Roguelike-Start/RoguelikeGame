@@ -26,10 +26,12 @@ public class UI_Setting_ScreenPopup : UI_Popup
         Bind<Button>(typeof(Buttons));
 
         GetButton((int)Buttons.Exit).gameObject.BindEvent(OnClosePopup);
+
     }
 
     void OnClosePopup()
     {
+        Managers.Sound.Play(Define.Sound.Effect, "Sound_UIButtonClick", UI_Setting_SoundPopup.EffectSound);
         Managers.UI.ClosePopupUI(this);
     }
 }

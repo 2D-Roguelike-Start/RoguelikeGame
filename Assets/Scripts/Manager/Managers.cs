@@ -13,6 +13,7 @@ public class Managers : MonoBehaviour
     SceneManagerExtended _scene = new SceneManagerExtended();
     UIManager _ui = new UIManager();
     DataManager _data = new DataManager();
+    SoundManager _sound = new SoundManager();
     TalkManager _talk = new TalkManager();
 
     public static InputManager Input { get { return Instance._input; } }
@@ -21,6 +22,7 @@ public class Managers : MonoBehaviour
     public static SceneManagerExtended Scene { get { return Instance._scene; } }
     public static UIManager UI { get { return Instance._ui; } }
     public static DataManager Data { get { return Instance._data; } }
+    public static SoundManager Sound { get { return Instance._sound; } }
     public static TalkManager Talk { get { return Instance._talk; } }
 
 
@@ -52,6 +54,7 @@ public class Managers : MonoBehaviour
 
             s_instance._pool.init();
             s_instance._data.init();
+            s_instance._sound.init();
         }
     }
 

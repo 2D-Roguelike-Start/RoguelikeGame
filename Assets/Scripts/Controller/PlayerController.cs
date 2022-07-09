@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log($"Trigger : {collision.gameObject}");
         if (collision.gameObject.layer == (int)Define.Layer.Enemy)
@@ -107,18 +107,27 @@ public class PlayerController : MonoBehaviour
                 if (transform.position.x <= collision.transform.position.x)
                 {
                     collision.transform.position += new Vector3(0.3f, 0, 0);
-                    effect.effect[0].transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+                    //effect.EffectOn(collision.transform, "Slash 3").transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+                    //effect.effect[0].transform.localScale = new Vector3(-0.5f, 0.5f, 1);
                 }
                 else
                 {
                     collision.transform.position += new Vector3(-0.3f, 0, 0);
-                    effect.effect[0].transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                    //effect.EffectOn(collision.transform, "Slash 3").transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                    //effect.effect[0].transform.localScale = new Vector3(0.5f, 0.5f, 1);
                 }
 
-                effect.EffectOn(collision.transform, "Slash 3");
+                //effect.EffectOn(collision.transform, "Slash 3");
                 collision.GetComponentInParent<Stat>().Hp -= PlayerStat.Attack;
             }
         }
+        else if(collision.gameObject.layer == 4)
+        {
+            PlayerStat.Hp = 0;
+            Managers.UI.ShowPopupUI<UI_DeadPopup>();
+            Managers.Sound.Clear();
+            Managers.Sound.Play(Define.Sound.Bgm, "Sound_Die", 0.2f);
+        } //Water 
        
         if (PlayerStat.Hp <= 0)
         {
@@ -255,7 +264,16 @@ public class PlayerController : MonoBehaviour
             {
                 if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
                 {
-                    
+                    switch (gameObject.name) 
+                    {
+                        case "Slime_A" :
+                            Managers.Sound.Play(Define.Sound.Effect, "Sound_Slime_A_Hit", UI_Setting_SoundPopup.EffectSound);
+                            break;
+                       
+
+                    }
+
+
                     animator.SetTrigger("isAttack");
 
                 }

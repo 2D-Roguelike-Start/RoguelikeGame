@@ -10,8 +10,8 @@ public class NPC_Tutorial : MonoBehaviour
     bool detect = false;
     float height;
     float distance;
-    string Name = "판테온";
-    string[] Talk = { "안녕하세요!", "테스트 중입니다", "반갑습니다" };
+    string Name = "여행자";
+    string[] Talk = { "어..안녕하세요!", "말을 알아들을 수 있나..?", "어쨋든.. 이곳은 위험합니다. 돌아가세요..!" };
     static int talkcnt = 0;
 
     GameObject player;

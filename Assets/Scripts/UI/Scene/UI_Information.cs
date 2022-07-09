@@ -47,6 +47,9 @@ public class UI_Information : UI_Scene
         //GetImage((int)Images.Test);
 
         GetButton((int)Buttons.Setting).gameObject.BindEvent(OnClickSetting);
+
+        Managers.Sound.Clear();
+        Managers.Sound.Play(Define.Sound.Bgm, "Sound_Tutorial", UI_Setting_SoundPopup.BgmSound);
     }
 
     void OnClickSetting()

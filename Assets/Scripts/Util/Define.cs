@@ -50,6 +50,28 @@ public class Define
         Tutorial,
     }
 
+    public enum Sound
+    {
+        Bgm,
+        Effect,
+        Speech,
+        Max,
+    }
+
+    public enum Enemy_Short
+    {
+        Slime_A,
+        Skeleton_A,
+        Spider_A,
+        Zombie_A,
+    }
+
+    public enum Enemy_Long
+    {
+        Skeleton_B,
+        Skeleton_C
+    }
+
 }
 
 

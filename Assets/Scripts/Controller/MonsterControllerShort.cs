@@ -175,15 +175,6 @@ public class MonsterControllerShort : CreatureController
         XYcheck();
         anim.SetInteger(animationState, (int)Define.CreatureState.Attack);
 
-        if (stat.Hp <= 0)
-        {
-            if (action.equipWeapon)
-                action.AttackColliderOnOff(); //혹시라도 켜져있는 콜라이더 OFF
-            action.PossessionTimerOn(); //타이머 ON
-            State = Define.CreatureState.Die;
-            return;
-        }
-
         // 공격범위보다 distance가 멀어짐과 동시에 Attack 애니메이션이 1번이상 실행 된 상태
         if (_attackRange < distance && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 &&
             gameObject.GetComponentInChildren<ActionController>().equipWeapon == false)
@@ -222,11 +213,14 @@ public class MonsterControllerShort : CreatureController
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log($"Monster hit! : {collision.name}");
+        if (State == Define.CreatureState.Die) return;
+
         if (stat.Hp <= 0)
         {
+            DieSound();
             if (action.equipWeapon)
                 action.AttackColliderOnOff(); //혹시라도 켜져있는 콜라이더 OFF
             action.PossessionTimerOn(); //타이머 ON
@@ -241,6 +235,29 @@ public class MonsterControllerShort : CreatureController
                 if (PlayerStat.Hp > 0)
                     PlayerStat.Hp -= stat.Attack;
             }
+        }
+    }
+
+    private void DieSound()
+    {
+        string[] names = System.Enum.GetNames(typeof(Define.Enemy_Short));
+        string thisName = null;
+        for (int i = 0; i < names.Length - 1; i++)
+        {
+            if (gameObject.name == names[i]) { thisName = names[i]; break; }
+        }
+        switch (thisName)
+        {
+            case "Slime_A":
+                Managers.Sound.Play(Define.Sound.Effect, "Sound_SlimeDie", UI_Setting_SoundPopup.EffectSound);
+                break;
+            //case "Skeleton_B":
+            //    Managers.Sound.Play(Define.Sound.Effect, "Sound_SkeletonDie", UI_Setting_SoundPopup.EffectSound);
+            //    break;
+            //case "Skeleton_C":
+            //    Managers.Sound.Play(Define.Sound.Effect, "Sound_SkeletonDie", UI_Setting_SoundPopup.EffectSound);
+            //    break;
+
         }
     }
 }
