@@ -1,24 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-enum Patterns_Orc
-{
-    Orc_Att,
-    Throwing_Axe,
-    Go_Wild,
-    Earthquake,
-    Follow,
 
-    End
-}
-
-public class BossController_Orc : Stat
+public class BossController_Orc : MonoBehaviour
 {
     GameObject Target; //플레이어
-    Patterns_Orc Next_Pattern = Patterns_Orc.End;
     Animator anim;
     string animationState = "AnimationState";
     EffectController effect;
+    Stat stat;
 
     int MoveCheck = 0;
     //지진
@@ -28,9 +18,9 @@ public class BossController_Orc : Stat
     //도끼
     public GameObject Axe;
     float Axe_Angle = 0;
-    float Axe_Speed = 2;
+    float Axe_Speed = 8;
     
-    //콜라이더
+    //근접공격 콜라이더
     GameObject AttCol;
 
     void Start()
@@ -40,13 +30,14 @@ public class BossController_Orc : Stat
         anim = gameObject.GetComponentInChildren<Animator>();
         AttCol = transform.Find("AttackCollider").gameObject;
         effect = GetComponent<EffectController>();
-        //Axe = transform.Find("Rig Weapon").gameObject;
+        Axe.GetComponent<Missile>().IsDestroy = false;
+        stat = gameObject.GetComponent<Stat>();
 
-        Level = 1;
-        MaxHp = 500;
-        Hp = 10;
-        MoveSpeed = 2;
-        Attack = 12;
+        stat.Level = 1;
+        stat.MaxHp = 500;
+        stat.Hp = 10;
+        stat.MoveSpeed = 1.5f;
+        stat.Attack = 12;
 
         StartCoroutine("Follow");
     }
@@ -61,17 +52,19 @@ public class BossController_Orc : Stat
 
         if(Axe_Angle != 0 )
         {
-            Axe.transform.Rotate(Vector3.forward * Axe_Speed);
-            Axe.transform.position = new Vector3(Axe.transform.position.x + Mathf.Cos(Axe_Angle)* Axe_Speed, Axe.transform.position.y + Mathf.Sin(Axe_Angle)* Axe_Speed, Axe.transform.position.z);
+            Axe.transform.Rotate(Vector3.forward * 4);
+            Axe.transform.position = new Vector3(Axe.transform.position.x + Mathf.Cos(Axe_Angle)* Axe_Speed * Time.deltaTime, Axe.transform.position.y + Mathf.Sin(Axe_Angle)* Axe_Speed * Time.deltaTime, Axe.transform.position.z);
         }
 
         if (MoveCheck != 0)
         {
-            gameObject.transform.Translate(new Vector3(MoveCheck, 0, 0) * MoveSpeed * Time.deltaTime);
+            gameObject.transform.Translate(new Vector3(MoveCheck, 0, 0) * stat.MoveSpeed * Time.deltaTime);
             if(MoveCheck > 0 && gameObject.transform.position.x > Target.transform.position.x
                 || MoveCheck < 0 && gameObject.transform.position.x < Target.transform.position.x)
                 MoveCheck *= -1;
         }
+
+        Debug.Log($"Boss Hp : {stat.Hp}");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -79,7 +72,7 @@ public class BossController_Orc : Stat
         if (collision.gameObject.layer == (int)Define.Layer.Player)
         {
             effect.EffectOn(collision.transform, "Blood");
-            PlayerStat.Hp -= Attack;
+            PlayerStat.Hp -= stat.Attack;
 
             AttCol.SetActive(false);
         }
@@ -87,17 +80,17 @@ public class BossController_Orc : Stat
 
     void HPCheck()
     {
-        if (Hp < (MaxHp / 10) * 3 && Earthquake_Count != 3)
+        if (stat.Hp < (stat.MaxHp / 10) * 3 && Earthquake_Count != 3)
         {
             Earthquake_Count = 3;
             StartCoroutine(Go_Wild());
         }
-        else if(Hp < (MaxHp / 10) * 5 && Earthquake_Count >= 1)
+        else if (stat.Hp < (stat.MaxHp / 10) * 5 && Earthquake_Count >= 1)
         {
             Earthquake_Count = 2;
             StartCoroutine(Earthquake());
         }
-        else if (Hp < (MaxHp / 10) * 8 && Earthquake_Count == 0)
+        else if (stat.Hp < (stat.MaxHp / 10) * 8 && Earthquake_Count == 0)
         {
             Earthquake_Count = 1;
             StartCoroutine(Earthquake());
@@ -120,22 +113,24 @@ public class BossController_Orc : Stat
     {
         Vector3 Save_Axe = Axe.transform.position;
         Quaternion Save_Axe_Rotation = Axe.transform.rotation;
-        Axe.GetComponent<BoxCollider2D>().gameObject.SetActive(true);
-        //플레이어와의 각도 구함
-        Axe_Angle = Mathf.Atan2(Target.transform.position.y - transform.position.y, Target.transform.position.x - transform.position.x) * Mathf.Rad2Deg; 
-        //update에서 angle 기준으로 도끼 던질거임.
+        anim.SetTrigger("isAttack");
+        yield return new WaitForSeconds(0.2f);
+        Axe.transform.gameObject.SetActive(true);
+        //플레이어와의 각도 구함 -> update에서 angle 기준으로 도끼 던질거임.
+        Axe_Angle = Mathf.Atan2(Target.transform.position.y - transform.position.y, Target.transform.position.x - transform.position.x); 
+        yield return new WaitForSeconds(1.8f);
 
-        yield return new WaitForSeconds(2);
         Axe_Angle = 0;
         Axe.GetComponent<BoxCollider2D>().gameObject.SetActive(false);
         Axe.transform.position = Save_Axe;
         Axe.transform.rotation = Save_Axe_Rotation;
+        Axe.transform.gameObject.SetActive(false);
         HPCheck();
     }
     IEnumerator Go_Wild()
     {
-        MoveSpeed *= 2;
-        Attack *= 2;
+        stat.MoveSpeed *= 2;
+        stat.Attack *= 2;
         yield return new WaitForSeconds(1);
         StartCoroutine(Follow());
     }
