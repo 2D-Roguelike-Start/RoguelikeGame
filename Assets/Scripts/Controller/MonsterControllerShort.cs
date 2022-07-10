@@ -26,6 +26,7 @@ public class MonsterControllerShort : CreatureController
     //Idle 움직임 결정
     int movementFlag;
     bool AI = false;
+    bool Fly = false;
     string animationState = "AnimationState";
 
     private void Awake()
@@ -42,6 +43,7 @@ public class MonsterControllerShort : CreatureController
 
     protected override void Init()
     {
+        if (gameObject.tag == "Air_Short" || gameObject.tag == "Air_Long") Fly = true;
         stat = gameObject.GetComponent<Stat>();
         _rigid = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
