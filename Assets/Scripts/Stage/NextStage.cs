@@ -30,7 +30,7 @@ public class NextStage : MonoBehaviour
         {
             case NextMapName.Stage1_Tutorial:
                 Debug.Log("Tutorial");
-                //cam.offset.x = 4.39f; cam.offset.y = 10.62f;
+                cam.Set_MaxXY(28, 23);
                 //CameraSet(cam.offset.x, cam.offset.y);
                 break;
             case NextMapName.Stage1_1:
