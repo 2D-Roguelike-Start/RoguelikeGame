@@ -26,7 +26,8 @@ public class MonsterControllerShort : CreatureController
     //Idle 움직임 결정
     int movementFlag;
     bool AI = false;
-    bool Fly = false;
+    bool isflying = false;
+    bool isattack = false;
     string animationState = "AnimationState";
 
     private void Awake()
@@ -43,7 +44,7 @@ public class MonsterControllerShort : CreatureController
 
     protected override void Init()
     {
-        if (gameObject.tag == "Air_Short" || gameObject.tag == "Air_Long") Fly = true;
+        if (gameObject.tag == "Flying_Long") { isflying = true; _scanRange = 3f; } //CancelInvoke(); }
         stat = gameObject.GetComponent<Stat>();
         _rigid = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
@@ -71,131 +72,218 @@ public class MonsterControllerShort : CreatureController
         frontcheck = Physics2D.Raycast(frontVec + new Vector2(0, 1), movementFlag == 1 ? Vector3.right :Vector3.left, 0.2f, LayerMask.GetMask("Floor"));
     }
 
+    #region Idle
     protected override void UpdateIdle()
     {
-        XYcheck(); // 매 프레임마다 거리 계산
-        VectorAndRay();
+        if(!isflying)
+        {
+            XYcheck(); // 매 프레임마다 거리 계산
+            VectorAndRay();
+        }
         anim.SetInteger(animationState, (int)Define.CreatureState.Idle);
 
         if (stat.Hp <= 0)
         {
-            if (action.equipWeapon)
+            if (action.equipWeapon && !isflying)
                 action.AttackColliderOnOff(); //혹시라도 켜져있는 콜라이더 OFF
             action.PossessionTimerOn(); //타이머 ON
             State = Define.CreatureState.Die;
             return;
         }
 
-        if (distance <= _scanRange && height < 1) // X 거리가 _scanRange이내이고 높이차이가 1 미만일때
+        if(!isflying)
         {
-            Debug.Log("Find Player in Idle");
-            if (distance < _attackRange)
+            if (distance <= _scanRange && height < 1) // X 거리가 _scanRange이내이고 높이차이가 1 미만일때
+            {
+                Debug.Log("Find Player in Idle");
+                if (distance < _attackRange)
+                {
+                    State = Define.CreatureState.Moving;
+                    return;
+                }
+                Debug.DrawRay(frontVec, Vector3.down, Color.green);
+                if (bottomcheck.collider == null)
+                {
+                    CancelInvoke();
+                    return;
+                }
+                // + 락타겟 하는 방법 고민
+                AI = false;
+                State = Define.CreatureState.Moving;
+                return;
+            }
+            else { AI = true; if (movementFlag != 0) State = Define.CreatureState.Moving; }
+        }
+        else
+        {
+            if(distance <= _scanRange && height <= 5f)
+            {
+                State = Define.CreatureState.Attack;
+                return;
+            }
+            else
             {
                 State = Define.CreatureState.Moving;
                 return;
             }
-            Debug.DrawRay(frontVec, Vector3.down, Color.green);
-            if (bottomcheck.collider == null)
-            {
-                CancelInvoke();
-                return;
-            }
-            // + 락타겟 하는 방법 고민
-            AI = false;
-            State = Define.CreatureState.Moving;
-            return;
         }
-        else { AI = true; if (movementFlag != 0) State = Define.CreatureState.Moving; }
     }
-
+    #endregion
+    #region Moving
     protected override void UpdateMoving()
     {
         XYcheck();
-        VectorAndRay();
+        if (!isflying)
+        {
+            VectorAndRay();
+        }
         anim.SetInteger(animationState, (int)Define.CreatureState.Moving);
 
         if (stat.Hp <= 0)
         {
-            State = Define.CreatureState.Die;
-            if (AI) AI = false;
-            CancelInvoke();
-            if (action.equipWeapon)
-                action.AttackColliderOnOff(); //혹시라도 켜져있는 콜라이더 OFF
+            if(!isflying)
+            {
+                if (AI) AI = false;
+                CancelInvoke();
+                if (action.equipWeapon)
+                    action.AttackColliderOnOff(); //혹시라도 켜져있는 콜라이더 OFF
+            }
             action.PossessionTimerOn(); //타이머 ON
+            State = Define.CreatureState.Die;
             return;
         }
-        if (AI)
+        if(!isflying)
         {
-            if (distance <= _scanRange && height < 1)
+            if (AI)
             {
-                Debug.Log("Find Player in Moving");
-                // + 락타겟 하는 방법 고민
-                AI = false;
-                //State = Define.CreatureState.Moving;
+                if (distance <= _scanRange && height < 1)
+                {
+                    Debug.Log("Find Player in Moving");
+                    // + 락타겟 하는 방법 고민
+                    AI = false;
+                    //State = Define.CreatureState.Moving;
+                    return;
+                }
+                MoveFlag(movementFlag);
+
+                Debug.DrawRay(frontVec, Vector3.down, Color.red);
+                Debug.DrawRay(frontVec + new Vector2(0, 1), movementFlag == 1 ? Vector3.right : Vector3.left, Color.red);
+
+                if (bottomcheck.collider == null || frontcheck.collider != null)
+                {
+                    movementFlag = movementFlag * (-1);
+                    CancelInvoke();
+                    Invoke("Think", 2);
+                    return;
+                }
+            }
+            else
+            {
+                CancelInvoke();
+                if (transform.position.x < _lockTarget.transform.position.x) movementFlag = 1;
+                else movementFlag = -1;
+
+                MoveFlag(movementFlag);
+                Debug.DrawRay(frontVec, Vector3.down, Color.green);
+
+                if (distance <= _attackRange && height < 1)
+                {
+                    State = Define.CreatureState.Attack;
+                    return;
+                }
+
+                if (bottomcheck.collider == null || frontcheck.collider != null || distance > _scanRange)
+                {
+                    State = Define.CreatureState.Idle;
+                    Invoke("Think", 2);
+                    return;
+                }
+            }
+        }
+        else
+        {
+            if (distance <= _attackRange)
+            {
+                State = Define.CreatureState.Attack;
                 return;
             }
-            MoveFlag(movementFlag);
-
-            Debug.DrawRay(frontVec, Vector3.down, Color.red);
-            Debug.DrawRay(frontVec + new Vector2(0, 1), movementFlag == 1 ? Vector3.right : Vector3.left, Color.red);
-
-            if (bottomcheck.collider == null || frontcheck.collider != null)
+            else
             {
-                movementFlag = movementFlag * (-1);
-                CancelInvoke();
-                Invoke("Think", 2);
+                if (transform.position.x < _lockTarget.transform.position.x) movementFlag = 1;
+                else movementFlag = -1;
+                MoveFlag(movementFlag);
+            }
+        }
+    }
+    #endregion
+
+    #region Attack
+    protected override void UpdateAttack()
+    {
+        XYcheck();
+        if (!isflying)
+        { 
+            anim.SetInteger(animationState, (int)Define.CreatureState.Attack);
+
+            // 공격범위보다 distance가 멀어짐과 동시에 Attack 애니메이션이 1번이상 실행 된 상태
+            if (_attackRange < distance && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 &&
+                gameObject.GetComponentInChildren<ActionController>().equipWeapon == false)
+            {
+
+                anim.SetInteger(animationState, (int)Define.CreatureState.Moving);
+                State = Define.CreatureState.Moving;
                 return;
             }
         }
         else
         {
-            CancelInvoke();
-            if (transform.position.x < _lockTarget.transform.position.x) movementFlag = 1;
-            else movementFlag = -1;
-
-            MoveFlag(movementFlag);
-            Debug.DrawRay(frontVec, Vector3.down, Color.green);
-
-            if (distance <= _attackRange && height < 1)
+            if (!isattack)
             {
-                State = Define.CreatureState.Attack;
-                return;
+                isattack = true;
+                StartCoroutine("Shoot");
             }
-
-            if (bottomcheck.collider == null || frontcheck.collider != null || distance > _scanRange)
-            {
-                State = Define.CreatureState.Idle;
-                Invoke("Think", 2);
-                return;
-            }
+            if (distance > _attackRange && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+                State = Define.CreatureState.Moving;
         }
-        
     }
-
-    protected override void UpdateAttack()
+    IEnumerator Shoot()
     {
-        XYcheck();
-        anim.SetInteger(animationState, (int)Define.CreatureState.Attack);
-
-        // 공격범위보다 distance가 멀어짐과 동시에 Attack 애니메이션이 1번이상 실행 된 상태
-        if (_attackRange < distance && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 &&
-            gameObject.GetComponentInChildren<ActionController>().equipWeapon == false)
+        BatScan ShootPos = gameObject.GetComponentInChildren<BatScan>();
+        GameObject[] Shoot = ShootPos.shootPos;
+        int count = Shoot.Length;
+        Managers.Sound.Play(Define.Sound.Effect, "Sound_BatAttack", UI_Setting_SoundPopup.EffectSound);
+        for (int i = 0; i < count; i++)
         {
-            
-            anim.SetInteger(animationState, (int)Define.CreatureState.Moving);
-            State = Define.CreatureState.Moving;
-            return;
+            switch (i)
+            {
+                case 0: Shoot[i].transform.rotation = Quaternion.AngleAxis(-45, Vector3.forward); break;
+                case 1: Shoot[i].transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward); break;
+                case 2: Shoot[i].transform.rotation = Quaternion.AngleAxis(-135, Vector3.forward); break;
+                case 3: Shoot[i].transform.rotation = Quaternion.AngleAxis(45, Vector3.forward); break;
+                case 4: Shoot[i].transform.rotation = Quaternion.AngleAxis(90, Vector3.forward); break;
+                case 5: Shoot[i].transform.rotation = Quaternion.AngleAxis(135, Vector3.forward); break;
+            }
+            GameObject go = Managers.Resource.Instantiate("Creature/Projectile/BatFireball");
+            go.layer = (int)Define.Layer.Projectile_Enemy;
+            go.transform.position = Shoot[i].transform.position;
+            go.transform.rotation = Shoot[i].transform.rotation;
         }
+        yield return new WaitForSeconds(2f);
+        isattack = false;
     }
+    #endregion
 
+    #region Die
     protected override void UpdateDie()
     {
+        if (isflying) _rigid.gravityScale = 1.8f;
+
         if (action.Timer.GetComponent<PossessionRadialProgress>().timeover)
         {
             Destroy(gameObject);
         }
     }
-
+    #endregion
     void MoveFlag(int movementFlag)
     {
         switch (movementFlag)
@@ -223,8 +311,11 @@ public class MonsterControllerShort : CreatureController
         if (stat.Hp <= 0)
         {
             DieSound();
-            if (action.equipWeapon)
-                action.AttackColliderOnOff(); //혹시라도 켜져있는 콜라이더 OFF
+            if(!isflying)
+            {
+                if (action.equipWeapon)
+                    action.AttackColliderOnOff(); //혹시라도 켜져있는 콜라이더 OFF
+            }
             action.PossessionTimerOn(); //타이머 ON
             State = Define.CreatureState.Die;
         }
@@ -253,12 +344,12 @@ public class MonsterControllerShort : CreatureController
             case "Slime_A":
                 Managers.Sound.Play(Define.Sound.Effect, "Sound_SlimeDie", UI_Setting_SoundPopup.EffectSound);
                 break;
-            //case "Skeleton_B":
-            //    Managers.Sound.Play(Define.Sound.Effect, "Sound_SkeletonDie", UI_Setting_SoundPopup.EffectSound);
-            //    break;
-            //case "Skeleton_C":
-            //    Managers.Sound.Play(Define.Sound.Effect, "Sound_SkeletonDie", UI_Setting_SoundPopup.EffectSound);
-            //    break;
+            case "Bat_A":
+                Managers.Sound.Play(Define.Sound.Effect, "Sound_BatDie", UI_Setting_SoundPopup.EffectSound);
+                break;
+                //case "Skeleton_C":
+                //    Managers.Sound.Play(Define.Sound.Effect, "Sound_SkeletonDie", UI_Setting_SoundPopup.EffectSound);
+                //    break;
 
         }
     }

@@ -129,6 +129,7 @@ public class ProjectileShoot : MonoBehaviour
         ef = GameObject.Find("Effect").GetAddComponent<EffectController>();
         if (gameObject.name == "Arrow") Effect = "Blood";
         else if (gameObject.name == "Magic Missile") Effect = "Magic Missile explosion";
+        else if (gameObject.name == "BatFireball") Effect = "Explosion";
     }
         
 }
