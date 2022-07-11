@@ -16,11 +16,11 @@ public class InputManager
     public void OnUpdate()
     {
         //UI 관련이면 return
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            Debug.Log("UI 입력이들어왔습니다.");
-            return;
-        }
+        //if (EventSystem.current.IsPointerOverGameObject())
+        //{
+        //    Debug.Log("UI 입력이들어왔습니다.");
+        //    return;
+        //}
 
         //키보드 키 감지 정의
         if(KeyAction != null && NonKeyAction != null)

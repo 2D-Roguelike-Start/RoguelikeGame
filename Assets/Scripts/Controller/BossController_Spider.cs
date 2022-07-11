@@ -268,8 +268,8 @@ public class BossController_Spider : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(4);
-        foreach (GameObject go in PatternObject) go.SetActive(true);
-
+        foreach (GameObject go in PatternObject)
+            go.SetActive(true);
         next = (int)Patterns.rush;
         nextPattern();
     }

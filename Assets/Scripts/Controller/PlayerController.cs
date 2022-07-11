@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log($"Trigger : {collision.gameObject}");
         if (collision.gameObject.layer == (int)Define.Layer.Enemy)
@@ -107,18 +107,27 @@ public class PlayerController : MonoBehaviour
                 if (transform.position.x <= collision.transform.position.x)
                 {
                     collision.transform.position += new Vector3(0.3f, 0, 0);
-                    effect.effect[0].transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+                    //effect.EffectOn(collision.transform, "Slash 3").transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+                    //effect.effect[0].transform.localScale = new Vector3(-0.5f, 0.5f, 1);
                 }
                 else
                 {
                     collision.transform.position += new Vector3(-0.3f, 0, 0);
-                    effect.effect[0].transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                    //effect.EffectOn(collision.transform, "Slash 3").transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                    //effect.effect[0].transform.localScale = new Vector3(0.5f, 0.5f, 1);
                 }
 
-                effect.EffectOn(collision.transform, "Slash 3");
+                //effect.EffectOn(collision.transform, "Slash 3");
                 collision.GetComponentInParent<Stat>().Hp -= PlayerStat.Attack;
             }
         }
+        else if(collision.gameObject.layer == 4)
+        {
+            PlayerStat.Hp = 0;
+            Managers.UI.ShowPopupUI<UI_DeadPopup>();
+            Managers.Sound.Clear();
+            Managers.Sound.Play(Define.Sound.Bgm, "Sound_Die", 0.2f);
+        } //Water 
        
         if (PlayerStat.Hp <= 0)
         {
@@ -132,7 +141,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //키보드에 뭔가가 들어왔을 때 실행
-    void OnKeyBoard()
+    public void OnKeyBoard()
     {
         RaycastHit2D raycasHit = Physics2D.Raycast(transform.position, Vector2.down, 0.3f, LayerMask.GetMask("Floor"));
         Debug.DrawRay(transform.position, new Vector2(0, -0.3f), Color.red);
@@ -206,7 +215,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //마우스에 (드래그 , 클릭) 들어왔을 때
-    void OnMouseClicked(Define.MouseEvent mouse)
+    public void OnMouseClicked(Define.MouseEvent mouse)
     {
         // 클릭상태이고 현재 플레이어가 Attack 상태가 아닐 때
         if(mouse == Define.MouseEvent.Click)
@@ -214,6 +223,7 @@ public class PlayerController : MonoBehaviour
             //빙의 가능한 상태
             if (ispossession)
             {
+                if (possession.GetClickedObject() == null) return;
                 // 반환되는 오브젝트가 적이다?
                 if (possession.GetClickedObject().layer == (int)Define.Layer.Enemy
                     && possession.GetClickedObject().GetComponent<Stat>().Hp <= 0)
@@ -254,7 +264,16 @@ public class PlayerController : MonoBehaviour
             {
                 if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
                 {
-                    
+                    switch (gameObject.name) 
+                    {
+                        case "Slime_A" :
+                            Managers.Sound.Play(Define.Sound.Effect, "Sound_Slime_A_Hit", UI_Setting_SoundPopup.EffectSound);
+                            break;
+                       
+
+                    }
+
+
                     animator.SetTrigger("isAttack");
 
                 }

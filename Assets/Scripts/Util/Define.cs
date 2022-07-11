@@ -28,8 +28,8 @@ public class Define
 
     public enum Scene
     {
+        Title,
         Tutorial,
-        Stage1_1,
     }
 
 
@@ -48,6 +48,28 @@ public class Define
     public enum NPC
     {
         Tutorial,
+    }
+
+    public enum Sound
+    {
+        Bgm,
+        Effect,
+        Speech,
+        Max,
+    }
+
+    public enum Enemy_Short
+    {
+        Slime_A,
+        Skeleton_A,
+        Spider_A,
+        Zombie_A,
+    }
+
+    public enum Enemy_Long
+    {
+        Skeleton_B,
+        Skeleton_C
     }
 
 }

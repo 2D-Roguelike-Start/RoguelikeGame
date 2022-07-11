@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class SceneManagerExtended
 {
@@ -16,7 +17,7 @@ public class SceneManagerExtended
     //reflection 이용, 이름추출
     string GetSceneName(Define.Scene type)
     {
-        string name = System.Enum.GetName(typeof(Define.Scene), type);
+        string name = Enum.GetName(typeof(Define.Scene), type);
         return name;
     }
 

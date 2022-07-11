@@ -7,23 +7,17 @@ public class UI_Information : UI_Scene
 {
     PlayerController Player;
 
-    enum GameObjects
-    {
-        //GridPanel,
-        ItemPanel,
-    }
-
     enum Images
     {
         HPBarBack,
         HPBar,
         SkillIcon,
-        Test,
+        ItemPanel,
     }
 
     enum Buttons
     {
-
+        Setting,
     }
 
     enum Texts
@@ -42,31 +36,30 @@ public class UI_Information : UI_Scene
     {
         base.Init();
 
-        Bind<GameObject>(typeof(GameObjects));
         Bind<Image>(typeof(Images));
+        Bind<Button>(typeof(Buttons));
         Bind<Text>(typeof(Texts));
 
-        GameObject itemPanel = Get<GameObject>((int)GameObjects.ItemPanel);
-        GetImage((int)Images.HPBarBack);
-        //GetImage((int)Images.HPBar);
-        GetImage((int)Images.SkillIcon);
-        //GetText((int)Texts.HP).text = $"{playerstat.Hp}";
-        GetImage((int)Images.Test);
+        //GetImage((int)Images.HPBarBack);
+        ////GetImage((int)Images.HPBar);
+        //GetImage((int)Images.SkillIcon);
+        ////GetText((int)Texts.HP).text = $"{playerstat.Hp}";
+        //GetImage((int)Images.Test);
 
+        GetButton((int)Buttons.Setting).gameObject.BindEvent(OnClickSetting);
 
-        for (int i = 0; i < 3; i++)
-        {
-            GameObject item = Managers.UI.MakeSubItem<UI_Inven_Item>(parent: itemPanel.transform, "Item").gameObject;
+        Managers.Sound.Clear();
+        Managers.Sound.Play(Define.Sound.Bgm, "Sound_Tutorial", UI_Setting_SoundPopup.BgmSound);
+    }
 
-            UI_Inven_Item invenitem = item.GetAddComponent<UI_Inven_Item>();
-        }
+    void OnClickSetting()
+    {
+        Managers.UI.ShowPopupUI<UI_SettingPopup>();
     }
 
     private void Update()
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        if (Player.ispossession) GetImage((int)Images.Test).color = Color.black;
-        else GetImage((int)Images.Test).color = Color.white;
 
         GetText((int)Texts.HP).text = $"{PlayerStat.Hp}";
         GetImage((int)Images.HPBar).fillAmount = Mathf.Lerp(GetImage((int)Images.HPBar).fillAmount, PlayerStat.Hp / PlayerStat.MaxHp, Time.deltaTime * 0.9f);
