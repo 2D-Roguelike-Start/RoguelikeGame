@@ -7,8 +7,8 @@ public enum Bomb_Type
     DarkBall,
     End
 }
-
 //test
+
 public class Bomb : MonoBehaviour
 {
     GameObject go = null;
@@ -21,6 +21,7 @@ public class Bomb : MonoBehaviour
     private void Start()
     {
         StartCoroutine("bomb");
+        //test
     }
 
     private void Update()
