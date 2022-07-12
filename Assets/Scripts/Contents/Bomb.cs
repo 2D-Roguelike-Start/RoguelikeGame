@@ -8,6 +8,7 @@ public enum Bomb_Type
     End
 }
 
+//test
 public class Bomb : MonoBehaviour
 {
     GameObject go = null;
