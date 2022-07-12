@@ -46,13 +46,20 @@ public class CameraController : MonoBehaviour
         offset.x = Camera.main.transform.position.x; // 4.16f tutorial
         offset.y = Camera.main.transform.position.y; //10.62f tutorial
 
-        MinX = offset.x - 20.39f; MaxX = offset.x + 20.41f;
-        MinY = offset.y - 12.32f; MaxY = offset.y + 13.68f;
+        MaxX = 28f;
+        MinX = MaxX - 48;
+        MaxY = 23f;
+        MinY = MaxY - 24;
+        
+        //MinX = offset.x - 20.39f; MaxX = offset.x + 20.41f;
+        //MinY = offset.y - 12.32f; MaxY = offset.y + 13.68f;
+        
         //카메라 수직축의 반만큼의 길이
         height = Camera.main.orthographicSize;
         //카메라 수평축의 반만큼의 길이
-        width = height * (Screen.width / Screen.height);
+        width = height * ((float)Screen.width / (float)Screen.height); ;
 
+        playertransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     void LateUpdate()
@@ -62,17 +69,29 @@ public class CameraController : MonoBehaviour
 
     public bool cameraMoving;
 
+    public void Set_MaxXY(int _X, int _Y)
+    {
+        MaxX = _X;
+        MinX = MaxX - 48;
+        MaxY = _Y;
+        MinY = MaxY - 24;
+    }
+
     void CameraArea()
     {
-        playertransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        //카메라 수직축의 반만큼의 길이
+        height = Camera.main.orthographicSize;
+        //카메라 수평축의 반만큼의 길이
+        width = height * ((float)Screen.width / (float)Screen.height); ;
 
         if (cameraMoving)
         {
             Vector3 desiredPosition = new Vector3(
-                Mathf.Clamp(playertransform.position.x /*+ offset.x*/, MinX + width, MaxX - width),
-                Mathf.Clamp(playertransform.position.y/* + offset.y*/, MinY + height, MaxY - height),
-                -10);
+                Mathf.Clamp(playertransform.position.x, MinX + width, MaxX - width),
+                Mathf.Clamp(playertransform.position.y, MinY + height, MaxY - height), -10);
+
             transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * cameraspeed);
+            transform.position = desiredPosition;
         }
         else
         {
