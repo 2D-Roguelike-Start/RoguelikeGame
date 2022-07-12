@@ -20,6 +20,7 @@ public class Bomb : MonoBehaviour
     private void Start()
     {
         StartCoroutine("bomb");
+        //test
     }
 
     private void Update()
