@@ -77,6 +77,11 @@ public class CameraController : MonoBehaviour
         MinY = MaxY - 24;
     }
 
+    public void Set_PlayerXY(Transform _Trans)
+    {
+        playertransform = _Trans;
+    }
+
     void CameraArea()
     {
         //카메라 수직축의 반만큼의 길이

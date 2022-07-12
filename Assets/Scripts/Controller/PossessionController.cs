@@ -32,5 +32,7 @@ public class PossessionController : MonoBehaviour
         go.AddComponent<PlayerController>();
         go.AddComponent<PossessionController>();
         go.GetComponentInChildren<Animator>().speed = PlayerStat.AttackSpeed;
+
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>().Set_PlayerXY(go.transform);
     }
 }
