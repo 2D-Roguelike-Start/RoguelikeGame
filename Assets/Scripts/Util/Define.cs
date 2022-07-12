@@ -14,6 +14,8 @@ public class Define
        AttackCollider = 10,
        NPC = 11,
        Projectile = 12,
+       Projectile_Enemy = 13,
+       Projectile_Player = 14,
     }
 
     public enum CreatureState
@@ -64,6 +66,7 @@ public class Define
         Skeleton_A,
         Spider_A,
         Zombie_A,
+        Bat_A,
     }
 
     public enum Enemy_Long

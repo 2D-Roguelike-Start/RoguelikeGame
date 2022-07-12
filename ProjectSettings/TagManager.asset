@@ -14,8 +14,6 @@ TagManager:
   - Flying_Long
   - Boss
   - Floor
-  - Air_Short
-  - Air_Long
   layers:
   - Default
   - TransparentFX
@@ -30,8 +28,8 @@ TagManager:
   - AttackCollider
   - NPC
   - Projectile
-  - 
-  - 
+  - Projectile_Enemy
+  - Projectile_Player
   - 
   - 
   - 

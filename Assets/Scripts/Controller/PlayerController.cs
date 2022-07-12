@@ -15,8 +15,11 @@ public class PlayerController : MonoBehaviour
     private bool inputIdle = false;
     private bool inputRight = false;
     private bool inputLeft = false;
+    private bool inputUp = false;
+    private bool inputDown = false;
     private bool inputJump = false;
     private bool isdie = false;
+    private bool isflying = false;
     public bool ispossession; // 스크립트 내부 빙의 상태 제어
     private string animationState = "AnimationState";
 
@@ -38,6 +41,16 @@ public class PlayerController : MonoBehaviour
         possession = GetComponent<PossessionController>();
         action = GetComponentInChildren<ActionController>();
         effect = GameObject.Find("Effect").GetComponent<EffectController>();
+
+        string name = gameObject.name;
+        int index = name.LastIndexOf('_');
+        if (index >= 0)
+            name = name.Substring(0, index);
+
+        if (name == "Bat")
+        {
+            isflying = true;
+        }
     }
 
     void Start()
@@ -45,7 +58,7 @@ public class PlayerController : MonoBehaviour
         if (PlayerStat.ShortOrLong)
         {
             target = GameObject.Find("Target");
-            gameObject.AddComponent<ProjectileController>();
+            //gameObject.AddComponent<ProjectileController>();
         }
         Init();
         action.PossessionTimerOff();
@@ -68,31 +81,38 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float fallSpeed = rigid.velocity.y;
-        if(inputIdle)
+        float verticalSpeed = rigid.velocity.y;
+        float horizonSpeed = rigid.velocity.x;
+        
+        if (inputIdle)
         {
             inputIdle = false;
-            rigid.velocity = new Vector2(0, fallSpeed);
+            rigid.velocity = new Vector2(0, verticalSpeed);
         }
         if (inputRight)
         {
             inputRight = false;
-            rigid.velocity = new Vector2(PlayerStat.MoveSpeed, fallSpeed);
+            rigid.velocity = new Vector2(PlayerStat.MoveSpeed, verticalSpeed);
         }
         if(inputLeft)
         {
             inputLeft = false;
-            rigid.velocity = new Vector2(-PlayerStat.MoveSpeed, fallSpeed);
+            rigid.velocity = new Vector2(-PlayerStat.MoveSpeed, verticalSpeed);
         }
         if (inputJump)
         {
             inputJump = false;
-            rigid.AddForce(Vector2.up * PlayerStat.JumpPower, ForceMode2D.Impulse);
+            if(isflying)
+            {
+                if (verticalSpeed <= PlayerStat.MoveSpeed)
+                    rigid.AddForce(Vector2.up * PlayerStat.JumpPower, ForceMode2D.Impulse);
+            }
+            else rigid.AddForce(Vector2.up * PlayerStat.JumpPower, ForceMode2D.Impulse);
         }
-        if(isdie)
+        if (isdie)
         {
             isdie = false;
-            rigid.velocity = new Vector2(0, fallSpeed);
+            rigid.velocity = new Vector2(0, verticalSpeed);
         }
 
     }
@@ -170,11 +190,22 @@ public class PlayerController : MonoBehaviour
             if (!PlayerStat.ShortOrLong) transform.localScale = new Vector3(1, 1, 1); //오른쪽 바라보는 방향
 
         }
-
-        if (Input.GetKeyDown(KeyCode.Space) && !animator.GetBool("isJumping")) //점프
+        if(!isflying)
         {
-            inputJump = true;
-            animator.SetBool("isJumping", true); // 플레이어 점프 상태로 전환
+            if (Input.GetKeyDown(KeyCode.Space) && !animator.GetBool("isJumping")) //점프
+            {
+                inputJump = true;
+                animator.SetBool("isJumping", true); // 플레이어 점프 상태로 전환
+            }
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.Space))// && !animator.GetBool("isJumping")) //점프
+            {
+                PlayerStat.JumpPower = 20f;
+                inputJump = true;
+                animator.SetBool("isJumping", true); // 플레이어 점프 상태로 전환
+            }
         }
 
         //빙의 상태
@@ -248,15 +279,11 @@ public class PlayerController : MonoBehaviour
                     possession.Possession(possession.GetClickedObject());
 
                     animator.SetBool("isDie", true);
+                    gameObject.layer = (int)Define.Layer.Enemy;
+                    gameObject.tag = "Untagged";
                     Managers.Input.KeyAction -= OnKeyBoard;
                     Managers.Input.NonKeyAction -= NonKeyBoard;
                     Managers.Input.MouseAction -= OnMouseClicked;
-
-
-
-                    gameObject.layer = (int)Define.Layer.Enemy;
-                    gameObject.tag = "Untagged";
-
                     Destroy(gameObject, 5f);
                 }
             }
@@ -269,7 +296,18 @@ public class PlayerController : MonoBehaviour
                         case "Slime_A" :
                             Managers.Sound.Play(Define.Sound.Effect, "Sound_Slime_A_Hit", UI_Setting_SoundPopup.EffectSound);
                             break;
-                       
+                        case "Bat_A":
+                            GameObject go = Managers.Resource.Instantiate("Creature/Projectile/BatFireball");
+                            go.layer = (int)Define.Layer.Projectile_Player;
+
+                            if (gameObject.transform.localScale.x >= 0) go.transform.position = gameObject.transform.position + new Vector3(1, 0, 0);
+                            else go.transform.position = gameObject.transform.position + new Vector3(-1, 0, 0);
+
+                            Vector3 PlayerShotdir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10)) - this.transform.position;
+                            float angle = Mathf.Atan2(PlayerShotdir.y, PlayerShotdir.x) * Mathf.Rad2Deg;
+
+                            go.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                            break;
 
                     }
 

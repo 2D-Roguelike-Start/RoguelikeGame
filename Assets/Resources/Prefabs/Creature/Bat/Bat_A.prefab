@@ -97,7 +97,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 1783
+    m_Bits: 30455
   m_RotationalOffset: 0
   m_UseOneWay: 0
   m_UseOneWayGrouping: 0
@@ -232,6 +232,7 @@ MonoBehaviour:
   height: 5
   distance: 3
   animator: {fileID: 7865282796038772183}
+  shootPos: []
 --- !u!1 &7865282796038772117
 GameObject:
   m_ObjectHideFlags: 0
