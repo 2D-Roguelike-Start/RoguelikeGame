@@ -7,6 +7,7 @@ public enum Bomb_Type
     DarkBall,
     End
 }
+//test
 
 public class Bomb : MonoBehaviour
 {
