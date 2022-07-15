@@ -13,7 +13,7 @@ public class Explosion : MonoBehaviour
 
         if (collision.gameObject.layer == (int)Define.Layer.Enemy)
         {
-            if (collision.GetComponent<Stat>().Hp > 0) collision.GetComponent<Stat>().Hp -= 10;
+            if (collision.GetComponent<Stat>().Hp > 0) collision.GetComponent<Stat>().Hp -= 5;
         }
     }
     private void Start()
@@ -23,7 +23,7 @@ public class Explosion : MonoBehaviour
 
     IEnumerator destroy()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.2f);
         Destroy(gameObject);
     }
 }

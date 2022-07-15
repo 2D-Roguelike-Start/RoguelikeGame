@@ -9,13 +9,16 @@ public class ScreenFixed : MonoBehaviour
     public int setHeight = 1080;
 
     //기기의 해상도 체크
-    public int deviceWidth;
-    public int deviceHeight;
-
-    void Start()
+    public float deviceWidth;
+    public float deviceHeight;
+    private void Awake()
     {
         deviceWidth = Screen.width;
         deviceHeight = Screen.height;
+    }
+
+    void Start()
+    {
         SetResolution();
     }
 

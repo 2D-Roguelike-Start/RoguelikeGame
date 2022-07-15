@@ -7,6 +7,7 @@ public class NPC_Tutorial : MonoBehaviour
     [SerializeField]
     private float scanRange = 3;
 
+    public bool android = false;
     bool detect = false;
     float height;
     float distance;
@@ -32,16 +33,19 @@ public class NPC_Tutorial : MonoBehaviour
 
     void OnTalk()
     {
-        if(Input.GetKeyDown(KeyCode.F))
+        if(Input.GetKeyDown(KeyCode.F) || android)
         {
+            Debug.Log("npc talk");
             if (distance <= scanRange && height <= 1)
             {
-                Managers.Input.KeyAction -= player.GetAddComponent<PlayerController>().OnKeyBoard;
-                Managers.Input.MouseAction -= player.GetAddComponent<PlayerController>().OnMouseClicked;
+                Managers.Input.TouchAction -= player.GetAddComponent<PlayerController>().OnTouch;
+                //Managers.Input.KeyAction -= player.GetAddComponent<PlayerController>().OnKeyBoard;
+                //Managers.Input.MouseAction -= player.GetAddComponent<PlayerController>().OnMouseClicked;
                 if (Talk.Length == talkcnt)
                 {
-                    Managers.Input.KeyAction += player.GetAddComponent<PlayerController>().OnKeyBoard;
-                    Managers.Input.MouseAction += player.GetAddComponent<PlayerController>().OnMouseClicked;
+                    Managers.Input.TouchAction += player.GetAddComponent<PlayerController>().OnTouch;
+                    //Managers.Input.KeyAction += player.GetAddComponent<PlayerController>().OnKeyBoard;
+                    //Managers.Input.MouseAction += player.GetAddComponent<PlayerController>().OnMouseClicked;
                     talkcnt = 0;
                     Managers.UI.CloseAllPopupUI();
                 }
@@ -51,8 +55,9 @@ public class NPC_Tutorial : MonoBehaviour
                     talk.Name = Name;
                     talk.Talk = Talk[talkcnt];
                     talkcnt++;
+                    android = false;
                 }
-            } 
+            }
         }
     }
 }

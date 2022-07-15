@@ -33,11 +33,11 @@ public class ProjectileShoot : MonoBehaviour
         switch(hit.collider.gameObject.layer)
         {
             case (int)Define.Layer.Player:
-                PlayerShotdir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10)) - this.transform.position;
-                angle = Mathf.Atan2(PlayerShotdir.y, PlayerShotdir.x) * Mathf.Rad2Deg;
+                //PlayerShotdir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10)) - this.transform.position;
+                //angle = Mathf.Atan2(PlayerShotdir.y, PlayerShotdir.x) * Mathf.Rad2Deg;
 
-                if (this.transform.localScale == new Vector3(1, 1, 1)) transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                else transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
+                //if (this.transform.localScale == new Vector3(1, 1, 1)) transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                //else transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
                 Who = "Player"; break;
 
             case (int)Define.Layer.Enemy:

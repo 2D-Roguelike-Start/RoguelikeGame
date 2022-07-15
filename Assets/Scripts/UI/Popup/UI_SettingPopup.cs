@@ -10,6 +10,7 @@ public class UI_SettingPopup : UI_Popup
         Setting_Screen,
         Setting_Sound,
         Exit,
+        goBackMainTitleButton,
     }
 
     private void Start()
@@ -25,6 +26,7 @@ public class UI_SettingPopup : UI_Popup
         GetButton((int)Buttons.Setting_Screen).gameObject.BindEvent(OnClickSetting_ScreenButton);
         GetButton((int)Buttons.Setting_Sound).gameObject.BindEvent(OnClickSetting_SoundButton);
         GetButton((int)Buttons.Exit).gameObject.BindEvent(OnClosePopup);
+        GetButton((int)Buttons.goBackMainTitleButton).gameObject.BindEvent(OnClickMainTitle);
 
     }
 
@@ -45,7 +47,14 @@ public class UI_SettingPopup : UI_Popup
     void OnClosePopup()
     {
         Debug.Log("OnClosePopup");
-        Managers.Sound.Play(Define.Sound.Effect, "Sound_UIButtonClick");
+        Managers.Sound.Play(Define.Sound.Effect, "Sound_UIButtonClick", UI_Setting_SoundPopup.EffectSound);
         Managers.UI.ClosePopupUI(this);
+    }
+
+    void OnClickMainTitle()
+    {
+        Managers.Sound.Play(Define.Sound.Effect, "Sound_UIButtonClick", UI_Setting_SoundPopup.EffectSound);
+        Managers.UI.CloseAllPopupUI();
+        Managers.Scene.LoadScene(Define.Scene.Title);
     }
 }

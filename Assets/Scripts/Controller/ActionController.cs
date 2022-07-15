@@ -6,7 +6,7 @@ public class ActionController : MonoBehaviour
 {
     public Transform WeaponPosition;
     public GameObject AttackCollider;
-    public GameObject Timer;
+    public GameObject Timer = null;
     public bool equipWeapon = false;
 
     public void AttackColliderOnOff()

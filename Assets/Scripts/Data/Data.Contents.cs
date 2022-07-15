@@ -29,16 +29,15 @@ public class StatData : ILoader<int, Stats>
 #endregion
 
 #region EnemyStats
-[Serializable]
+[Serializable] //외부에서 parsing 할수있게 함
 public class EnemyStats
 {
+    //public 중요
     public int Em_ID;
     public string Em_name;
     public int Em_MinAp;
     public int Em_MaxAp;
     public int Em_Hp;
-    public int Em_Jp;
-    public float Em_MoveSpd;
 }
 
 [Serializable]
@@ -46,6 +45,7 @@ public class EnemyStatData : ILoader<int, EnemyStats>
 {
     public List<EnemyStats> enemyStat = new List<EnemyStats>();
 
+    //인터페이스 구현 Dictionary<int, EnemyStats> return해주는 MakeDict()
     public Dictionary<int, EnemyStats> MakeDict()
     {
         Dictionary<int, EnemyStats> dict = new Dictionary<int, EnemyStats>();

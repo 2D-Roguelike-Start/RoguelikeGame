@@ -22,12 +22,14 @@ public class ResourceManager
 
     public GameObject Instantiate(string path, Transform parent = null) //리소스의 생성 (경로, 부모객체의 위치정보)
     {
+        //orginal 프리팹 경로의 Gameobject
         GameObject original = Load<GameObject>($"Prefabs/{path}");
         if(original == null)
         {
             Debug.Log($"Failed to Load Prefab : {path}");
             return null;
         }
+        //Poolable이 붙어있다면
         if (original.GetComponent<Poolable>() != null)
             return Managers.Pool.Pop(original, parent).gameObject;
 

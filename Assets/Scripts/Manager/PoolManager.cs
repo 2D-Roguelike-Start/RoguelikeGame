@@ -12,6 +12,7 @@ public class PoolManager
 
         Stack<Poolable> _poolStack = new Stack<Poolable>();
 
+        //정해놓은 갯수만큼 Pool_Root산하에 배치
         public void init(GameObject original, int count = 5)
         {
             Original = original;
@@ -34,6 +35,7 @@ public class PoolManager
             if (poolable == null) return;
 
             poolable.transform.parent = Root;
+            //꺼내기 전까지 꺼놓기
             poolable.gameObject.SetActive(false);
             poolable.isUse = false;
 
@@ -42,12 +44,14 @@ public class PoolManager
 
         public Poolable Pop(Transform parent)
         {
+            //필요하면 스택에서 꺼냄
             Poolable poolable;
             if (_poolStack.Count > 0)
                 poolable = _poolStack.Pop();
             else
-                poolable = Create();
+                poolable = Create(); //없으면 다시정해진 갯수만큼 만듬
 
+            //꺼낸걸 root산하에 붙이고 setactive(true)
             poolable.gameObject.SetActive(true);
             poolable.transform.parent = parent;
             poolable.isUse = true;
@@ -90,6 +94,7 @@ public class PoolManager
 
     public Poolable Pop(GameObject original, Transform parent = null)
     {
+        //풀에 오브젝트가 없다면 생성
         if (_pool.ContainsKey(original.name) == false)
             CreatePool(original);
 

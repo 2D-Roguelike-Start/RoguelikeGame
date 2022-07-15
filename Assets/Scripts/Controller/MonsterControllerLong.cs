@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterControllerLong : CreatureController
 {
     //땅에 붙어있는 원거리 몬스터 컨트롤러
-    Stat stat;
+    public Stat stat;
     Rigidbody2D _rigid;
     ActionController action;
 
@@ -46,11 +46,41 @@ public class MonsterControllerLong : CreatureController
         anim = GetComponentInChildren<Animator>();
         action = GetComponentInChildren<ActionController>();
 
-        stat.Level = 1;
-        stat.MaxHp = 100;
-        stat.Hp = 10;
-        stat.MoveSpeed = 2;
-        stat.Attack = 10;
+        Dictionary<int, EnemyStats> EnemyStatDict = Managers.Data.EnemyStatsDict;
+        string frontName = gameObject.name;
+        int index = frontName.LastIndexOf('_');
+        if (index >= 0)
+            frontName = frontName.Substring(0, index);
+        switch (frontName)
+        {
+            case "Slime":
+                stat.MaxHp = EnemyStatDict[1].Em_Hp;
+                stat.Hp = EnemyStatDict[1].Em_Hp;
+                stat.Attack = EnemyStatDict[1].Em_MinAp;
+                break;
+            case "Skeleton":
+                stat.MaxHp = EnemyStatDict[5].Em_Hp;
+                stat.Hp = EnemyStatDict[5].Em_Hp;
+                stat.Attack = EnemyStatDict[5].Em_MinAp;
+                break;
+            case "Spider":
+                stat.MaxHp = EnemyStatDict[6].Em_Hp;
+                stat.Hp = EnemyStatDict[6].Em_Hp;
+                stat.Attack = EnemyStatDict[6].Em_MinAp;
+                break;
+            case "Bat":
+                stat.MaxHp = EnemyStatDict[7].Em_Hp;
+                stat.Hp = EnemyStatDict[7].Em_Hp;
+                stat.Attack = EnemyStatDict[7].Em_MinAp;
+                break;
+            case "Zombie":
+                stat.MaxHp = EnemyStatDict[4].Em_Hp;
+                stat.Hp = EnemyStatDict[4].Em_Hp;
+                stat.Attack = EnemyStatDict[4].Em_MinAp;
+                break;
+        }
+
+        Debug.Log($"{gameObject.name}'s Stat Hp : {stat.Hp}, Attack : {stat.Attack}, MaxHp : {stat.MaxHp}");
     }
 
     //크리쳐와 플레이어 간의 X, Y 값의 절대값 계산

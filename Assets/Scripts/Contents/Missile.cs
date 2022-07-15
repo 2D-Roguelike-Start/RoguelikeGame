@@ -22,13 +22,10 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Hit Fireball 1");
         if (collision.gameObject.layer == (int)Define.Layer.Player)// && gameObject.layer == (int)Define.Layer.Enemy)
         {
-            Debug.Log("Hit Fireball 2");
-            if(gameObject.layer == (int)Define.Layer.Projectile_Enemy)
+            if(gameObject.layer == (int)Define.Layer.Projectile_Enemy || gameObject.layer == (int)Define.Layer.Projectile)
             {
-                Debug.Log("Hit Fireball 3");
                 switch (gameObject.name)
                 {
                     case "Poison Missile":

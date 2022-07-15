@@ -8,6 +8,7 @@ public class SceneManagerExtended
 {
     public BaseScene CurrentScene { get { return GameObject.FindObjectOfType<BaseScene>(); } }
 
+    //현재 씬 제거, Define 정의된 scene 로드
     public void LoadScene(Define.Scene type)
     {
         CurrentScene.Clear();
@@ -21,6 +22,7 @@ public class SceneManagerExtended
         return name;
     }
 
+    //현재 씬 제거
     public void Clear()
     {
         CurrentScene.Clear();

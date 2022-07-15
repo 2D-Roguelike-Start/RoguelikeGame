@@ -11,9 +11,6 @@ public class TitleScene : BaseScene
         SceneType = Define.Scene.Title;
         Managers.UI.ShowPopupUI<UI_TitlePopup>();
 
-        Managers.Data.ParseExcel();
-        Dictionary<int, EnemyStats> dict = Managers.Data.EnemyStatsDict;
-        Dictionary<int, Stats> dict2 = Managers.Data.StatsDict;
     }
 
     public override void Clear()

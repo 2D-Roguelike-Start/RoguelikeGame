@@ -25,10 +25,10 @@ public class Stat : MonoBehaviour
 
     private void Start()
     {
-        //_level = 1;
-        //_hp = 30;
-        //_maxhp = 100;
-        //_attack = 10;
-        //_moveSpeed = 2;
+        _maxhp = 100;
+        _hp = 100;
+        _moveSpeed = 2;
     }
+
+
 }

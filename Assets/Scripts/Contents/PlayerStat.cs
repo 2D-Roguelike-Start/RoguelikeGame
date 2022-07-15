@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerStat
 {
-    public static float _hp = 500;
-    public static float _maxhp = 500;
-    public static int _attack = 10;
+    public static float _hp = 200;
+    public static float _maxhp = 200;
+    public static int _attack = 30;
     public static float _attackSpeed = 2; 
     public static float _moveSpeed = 5;
     public static int _exp = 0;

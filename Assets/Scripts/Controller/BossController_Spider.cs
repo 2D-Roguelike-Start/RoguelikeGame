@@ -7,9 +7,10 @@ public class BossController_Spider : MonoBehaviour
 {
     GameObject _lockTarget;
     public GameObject[] PatternObject;
+    public GameObject AttackCollider;
     Rigidbody2D rigid;
     Animator anim;
-    Stat stat;
+    public Stat stat;
     //TilemapCollider2D onofftile;
     public GameObject[] shootposition;
 
@@ -17,6 +18,7 @@ public class BossController_Spider : MonoBehaviour
     int next = 0;
     float dir;
     bool ispoison = false;
+    bool ispoisonactive = false;
     bool Poison = false;
     Vector3 Movedir;
 
@@ -36,8 +38,8 @@ public class BossController_Spider : MonoBehaviour
         //onofftile = GameObject.Find("OnOffTile").GetAddComponent<TilemapCollider2D>();
 
         stat.Level = 1;
-        stat.MaxHp = 50;
-        stat.Hp = 50;
+        stat.MaxHp = 300;
+        stat.Hp = 300;
         stat.MoveSpeed = 5;
         stat.Attack = 10;
 
@@ -62,7 +64,7 @@ public class BossController_Spider : MonoBehaviour
     void LookPoisonPos()
     {
         float scale = transform.localScale.y;
-        dir = -92f > transform.position.x ? scale : scale * (-1);
+        dir = -70.72f > transform.position.x ? scale : scale * (-1);
         transform.localScale = new Vector3(dir, scale, scale);
     }
 
@@ -73,13 +75,17 @@ public class BossController_Spider : MonoBehaviour
             case 0: StartCoroutine(rush()); break;
             case 1: StartCoroutine(spiderWeb()); break;
             case 2: StartCoroutine(poison()); break;
+            default: StartCoroutine(Die()); break;
         }
     }
 
+    #region 돌진
     IEnumerator rush()
     {
         anim.SetInteger(animationState, 0);
         LookPlayer();
+        AttackCollider.SetActive(true);
+        Managers.Sound.Play(Define.Sound.Effect, "Sound_SpiderBossAttack", UI_Setting_SoundPopup.EffectSound);
         Vector3 playerPosition = _lockTarget.transform.position;
         Debug.Log(playerPosition);
         yield return new WaitForSeconds(1);
@@ -91,20 +97,20 @@ public class BossController_Spider : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             if (stat.MoveSpeed > rigid.velocity.x * dir)
             {
-                anim.SetInteger(animationState, 1);
+                anim.SetTrigger("isAttack");
                 //onofftile.enabled = false;
-                rigid.AddForce(Movedir * dir * 450);
+                rigid.AddForce(Movedir * dir * 300);
             }
-            if (Mathf.Abs(transform.position.x - playerPosition.x) <= stop)
+            if (Mathf.Abs(transform.position.x - playerPosition.x) <= stop || (Mathf.Abs(transform.position.x - playerPosition.x) >= 3f))
             {
-                anim.SetInteger(animationState, 0);
+                anim.SetInteger(animationState, 1);
                 rigid.velocity = new Vector2(0, rigid.velocity.y);
                 //onofftile.enabled = true;
                 isCatching = true;
                 break;
             }
         }
-        if (stat.Hp / stat.MaxHp <= 0.3 && !Poison) ispoison = true;
+        if (stat.Hp / stat.MaxHp <= 0.5 && !Poison) ispoison = true;
 
         if (!ispoison)
         {
@@ -115,14 +121,18 @@ public class BossController_Spider : MonoBehaviour
         else
         {
             next = (int)Patterns.poison;
+            ispoisonactive = true;
             Poison = true;
             ispoison = false;
         }
         
         yield return new WaitForSeconds(3);
+        AttackCollider.SetActive(false);
         nextPattern();
     }
+    #endregion
 
+    #region 거미줄
     IEnumerator spiderWeb()
     {
         ConstantForce2D Force = gameObject.GetAddComponent<ConstantForce2D>();
@@ -191,25 +201,48 @@ public class BossController_Spider : MonoBehaviour
             if (stat.MoveSpeed > rigid.velocity.x * dir)
             {
                 anim.SetInteger(animationState, 0);
-                rigid.AddForce(transform.right * dir * 300);
+                rigid.AddForce(transform.right * dir * 200);
                 if (Mathf.Abs(transform.position.x - _lockTarget.transform.position.x) <= 2f)
                 {
                     yield return new WaitForSeconds(0.1f);
                     anim.SetTrigger("isAttack");
                     rigid.velocity = new Vector2(0, rigid.velocity.y);
-                    for (int i = 0; i < 3; i++)
+                    if(!ispoisonactive)
                     {
-                        switch (i)
+                        for (int i = 0; i < 3; i++)
                         {
-                            case 0: shootposition[i].transform.rotation = Quaternion.AngleAxis(-120, Vector3.forward); break;
-                            case 1: shootposition[i].transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward); break;
-                            case 2: shootposition[i].transform.rotation = Quaternion.AngleAxis(-60, Vector3.forward); break;
+                            switch (i)
+                            {
+                                case 0: shootposition[i].transform.rotation = Quaternion.AngleAxis(-120, Vector3.forward); break;
+                                case 1: shootposition[i].transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward); break;
+                                case 2: shootposition[i].transform.rotation = Quaternion.AngleAxis(-60, Vector3.forward); break;
+                            }
+                            Managers.Sound.Play(Define.Sound.Effect, "Sound_SpiderBossAttack", UI_Setting_SoundPopup.EffectSound);
+                            Managers.Resource.Instantiate("Creature/Projectile/Poison Bomb").transform.position = shootposition[i].transform.position;
+                            GameObject go = Managers.Resource.Instantiate("Creature/Projectile/Poison Missile");
+                            go.transform.position = shootposition[i].transform.position;
+                            go.transform.rotation = shootposition[i].transform.rotation;
                         }
-                        Managers.Resource.Instantiate("Creature/Projectile/Poison Bomb").transform.position = shootposition[i].transform.position;
-                        GameObject go = Managers.Resource.Instantiate("Creature/Projectile/Poison Missile");
-                        go.transform.position = shootposition[i].transform.position;
-                        go.transform.rotation = shootposition[i].transform.rotation;
                     }
+                    else
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            switch (i)
+                            {
+                                case 0: shootposition[i].transform.rotation = Quaternion.AngleAxis(-120, Vector3.forward); break;
+                                case 1: shootposition[i].transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward); break;
+                                case 2: shootposition[i].transform.rotation = Quaternion.AngleAxis(-60, Vector3.forward); break;
+                                case 3: shootposition[i].transform.rotation = Quaternion.AngleAxis(-30, Vector3.forward); break;
+                            }
+                            Managers.Sound.Play(Define.Sound.Effect, "Sound_SpiderBossAttack", UI_Setting_SoundPopup.EffectSound);
+                            Managers.Resource.Instantiate("Creature/Projectile/Poison Bomb").transform.position = shootposition[i].transform.position;
+                            GameObject go = Managers.Resource.Instantiate("Creature/Projectile/Poison Missile");
+                            go.transform.position = shootposition[i].transform.position;
+                            go.transform.rotation = shootposition[i].transform.rotation;
+                        }
+                    }
+                    
                     yield return new WaitForSeconds(2f);
                     cnt++;
                 }
@@ -225,7 +258,9 @@ public class BossController_Spider : MonoBehaviour
         next = (int)Patterns.rush;
         nextPattern();
     }
+    #endregion
 
+    #region 2페이즈 독발사
     IEnumerator poison()
     {
         Debug.Log("isPoison");
@@ -243,7 +278,7 @@ public class BossController_Spider : MonoBehaviour
                 anim.SetInteger(animationState, 1);
                 rigid.AddForce(transform.right * dir * 200);
             }
-            if (Mathf.Abs(transform.position.x - (-92f)) <= 1.5f)
+            if (Mathf.Abs(transform.position.x - (-70.72f)) <= 1.5f)
             {
                 rigid.velocity = new Vector2(0, rigid.velocity.y);
                 anim.SetInteger(animationState, 0);
@@ -252,14 +287,15 @@ public class BossController_Spider : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(2);
+        Managers.Sound.Play(Define.Sound.Effect, "Sound_SpiderBossisPoison", UI_Setting_SoundPopup.EffectSound);
         for (int i = 0; i < 50; i++)
         {
             switch (i % 4)
             {
                 case 0: shootposition[i % 4].transform.rotation = Quaternion.AngleAxis(120, Vector3.forward); break;
-                case 1: shootposition[i % 4].transform.rotation = Quaternion.AngleAxis(150, Vector3.forward); break;
+                case 1: shootposition[i % 4].transform.rotation = Quaternion.AngleAxis(130, Vector3.forward); break;
                 case 2: shootposition[i % 4].transform.rotation = Quaternion.AngleAxis(30, Vector3.forward); break;
-                case 3: shootposition[i % 4].transform.rotation = Quaternion.AngleAxis(50, Vector3.forward); break;
+                case 3: shootposition[i % 4].transform.rotation = Quaternion.AngleAxis(40, Vector3.forward); break;
             }
             GameObject go = Managers.Resource.Instantiate("Creature/Projectile/Poison Bomb");
             go.transform.position = shootposition[i % 4].transform.position;
@@ -273,9 +309,34 @@ public class BossController_Spider : MonoBehaviour
         next = (int)Patterns.rush;
         nextPattern();
     }
+    #endregion
+
+    IEnumerator Die()
+    { 
+        yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("player hit by spider Boss");
+        if(collision.gameObject.layer == (int)Define.Layer.Player)
+        {
+            PlayerStat.Hp -= stat.Attack;
+        }
+    }
 
     private void Update()
     {
-        Debug.Log($"Boss Hp : {stat.Hp}");
+        if(stat.Hp <= 0)
+        {
+            Managers.UI.ClosePopupUI();
+            next = 3;
+            anim.SetBool("isDie", true);
+            rigid.velocity = Vector2.zero;
+            Managers.Sound.Clear();
+            Managers.UI.ShowPopupUI<UI_DeadPopup>();
+            nextPattern();
+        }
     }
 }

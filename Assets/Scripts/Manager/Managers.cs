@@ -25,7 +25,6 @@ public class Managers : MonoBehaviour
     public static SoundManager Sound { get { return Instance._sound; } }
     public static TalkManager Talk { get { return Instance._talk; } }
 
-
     void Start()
     {
         //ÃÊ±âÈ­

@@ -52,6 +52,8 @@ public abstract class UI_Base : MonoBehaviour
     protected Button GetButton(int idx) { return Get<Button>(idx); }
     protected Image GetImage(int idx) { return Get<Image>(idx); }
     protected Scrollbar GetScroll(int idx) { return Get<Scrollbar>(idx); }
+    protected Toggle GetToggle(int idx) { return Get<Toggle>(idx); }
+
 
     //이벤트 추가 메서드
     public static void BindEvent(GameObject go, Action action, Define.UIEvent type = Define.UIEvent.Click)

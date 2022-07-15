@@ -63,6 +63,6 @@ public class UI_Information : UI_Scene
 
         GetText((int)Texts.HP).text = $"{PlayerStat.Hp}";
         GetImage((int)Images.HPBar).fillAmount = Mathf.Lerp(GetImage((int)Images.HPBar).fillAmount, PlayerStat.Hp / PlayerStat.MaxHp, Time.deltaTime * 0.9f);
-        Player.ispossession = false;
+        //Player.ispossession = false;
     }
 }

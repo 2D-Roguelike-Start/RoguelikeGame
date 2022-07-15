@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class MonsterControllerShort : CreatureController
 {
     //땅에 붙어있는 근거리 몬스터 컨트롤러
-    Stat stat;
+    public Stat stat;
     Rigidbody2D _rigid;
     ActionController action;
 
@@ -50,11 +50,41 @@ public class MonsterControllerShort : CreatureController
         anim = GetComponentInChildren<Animator>();
         action = GetComponentInChildren<ActionController>();
 
-        stat.Level = 1;
-        stat.MaxHp = 10;
-        stat.Hp = 10;
-        stat.MoveSpeed = 2;
-        stat.Attack = 10;
+        Dictionary<int, EnemyStats> EnemyStatDict = Managers.Data.EnemyStatsDict;
+        string frontName = gameObject.name;
+        int index = frontName.LastIndexOf('_');
+        if (index >= 0)
+            frontName = frontName.Substring(0, index);
+        switch (frontName) 
+        {
+            case "Slime":
+                stat.MaxHp = EnemyStatDict[1].Em_Hp;
+                stat.Hp = EnemyStatDict[1].Em_Hp;
+                stat.Attack = EnemyStatDict[1].Em_MinAp;
+                break;
+            case "Skeleton":
+                stat.MaxHp = EnemyStatDict[5].Em_Hp;
+                stat.Hp = EnemyStatDict[5].Em_Hp;
+                stat.Attack = EnemyStatDict[5].Em_MinAp;
+                break;
+            case "Spider":
+                stat.MaxHp = EnemyStatDict[6].Em_Hp;
+                stat.Hp = EnemyStatDict[6].Em_Hp;
+                stat.Attack = EnemyStatDict[6].Em_MinAp;
+                break;
+            case "Bat":
+                stat.MaxHp = EnemyStatDict[7].Em_Hp;
+                stat.Hp = EnemyStatDict[7].Em_Hp;
+                stat.Attack = EnemyStatDict[7].Em_MinAp;
+                break;
+            case "Zombie":
+                stat.MaxHp = EnemyStatDict[4].Em_Hp;
+                stat.Hp = EnemyStatDict[4].Em_Hp;
+                stat.Attack = EnemyStatDict[4].Em_MinAp;
+                break;
+        }
+
+        Debug.Log($"{gameObject.name}'s Stat Hp : {stat.Hp}, Attack : {stat.Attack}, MaxHp : {stat.MaxHp}");
     }
 
     //크리쳐와 플레이어 간의 X, Y 값의 절대값 계산
@@ -202,7 +232,7 @@ public class MonsterControllerShort : CreatureController
         }
         else
         {
-            if (distance <= _attackRange)
+            if (distance <= _attackRange && height < 3f)
             {
                 State = Define.CreatureState.Attack;
                 return;
@@ -242,7 +272,7 @@ public class MonsterControllerShort : CreatureController
                 isattack = true;
                 StartCoroutine("Shoot");
             }
-            if (distance > _attackRange && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+            if (distance > _attackRange && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 && height >= 3f)
                 State = Define.CreatureState.Moving;
         }
     }
@@ -305,7 +335,6 @@ public class MonsterControllerShort : CreatureController
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"Monster hit! : {collision.name}");
         if (State == Define.CreatureState.Die) return;
 
         if (stat.Hp <= 0)
@@ -320,11 +349,23 @@ public class MonsterControllerShort : CreatureController
             State = Define.CreatureState.Die;
         }
 
-        if (State != Define.CreatureState.Die && State == Define.CreatureState.Attack)
+        if (State != Define.CreatureState.Die)// && State == Define.CreatureState.Attack)
         {
-            Debug.Log("Monster Attack On");
-            if (collision.gameObject.layer == (int)Define.Layer.Player)
+            GameObject go = collision.gameObject; // 플레이어
+
+            if (go.layer == (int)Define.Layer.Player)
             {
+                Debug.Log($"Enemy -> Player Trigger : {collision.name}");
+                if (transform.position.x <= go.transform.position.x)
+                {
+                    go.transform.position += new Vector3(0.3f, 0, 0);
+                    
+                }
+                else
+                {
+                    go.transform.position += new Vector3(-0.3f, 0, 0);
+                }
+
                 if (PlayerStat.Hp > 0)
                     PlayerStat.Hp -= stat.Attack;
             }

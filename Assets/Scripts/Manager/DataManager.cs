@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using UnityEditor;
 
+//Data dictionary 인터페이스 정의
+//ILoader라는 인터페이스는 Dictionary형식의 key, value 를 뱉어주는 MakeDict()를 반드시 구현
 public interface ILoader<Key, Value> 
 {
     Dictionary<Key, Value> MakeDict();
@@ -11,47 +12,21 @@ public interface ILoader<Key, Value>
 
 public class DataManager
 {
+    //필요한 데이터 있을 때마다 추가해줘야 하는 부분
     public Dictionary<int, Stats> StatsDict { get; private set; } = new Dictionary<int, Stats>();
     public Dictionary<int, EnemyStats> EnemyStatsDict { get; private set; } = new Dictionary<int, EnemyStats>();
 
     public void init()
     {
         StatsDict = LoadJson<StatData, int, Stats>("statData").MakeDict();
-        EnemyStatsDict = LoadJson<EnemyStatData, int, EnemyStats>("testJson").MakeDict();
+        EnemyStatsDict = LoadJson<EnemyStatData, int, EnemyStats>("EnemyTableJson").MakeDict();
     }
 
+    //편의로 Loader(json파일을 파싱해서 뱉어줌) 을 뱉어주는 함수를만듬 제네릭과 비슷한 느낌 여기서 Loader은 StatData, EnemyStatData.
     Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
     {
         TextAsset textasset = Managers.Resource.Load<TextAsset>($"Data/{path}");
+        //JsonUtility.FromJson<Loader>(textasset.text) == JsonUtility.FromJson<(StatData) || (EnemyStatData)>(textasset.text)
         return JsonUtility.FromJson<Loader>(textasset.text);
-    }
-
-    public void ParseExcel()
-    {
-        EnemyStatData enemyStatData = new EnemyStatData();
-
-        string[] lines = Managers.Resource.Load<TextAsset>("Data/EnemyTable").text.Split('\n');
-
-        for(int i = 1; i < lines.Length; i++)
-        {
-            string[] row = lines[i].Split('\t');
-            if (row.Length == 0) continue;
-            if (string.IsNullOrEmpty(row[0])) continue;
-
-            enemyStatData.enemyStat.Add(new EnemyStats()
-            {
-                Em_ID = int.Parse(row[0]),
-                Em_name = row[1],
-                Em_MinAp = int.Parse(row[2]),
-                Em_MaxAp = int.Parse(row[3]),
-                Em_Hp = int.Parse(row[4]),
-                Em_Jp = int.Parse(row[5]),
-                Em_MoveSpd = float.Parse(row[6])
-            });
-        }
-        
-        string json = JsonUtility.ToJson(enemyStatData, true);
-        File.WriteAllText($"{Application.dataPath}/Resources/Data/testJson.json", json);
-        AssetDatabase.Refresh();
     }
 }
