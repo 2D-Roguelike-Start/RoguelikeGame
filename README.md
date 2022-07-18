@@ -7,8 +7,7 @@
 ![Screenshot_20220714-191949](https://user-images.githubusercontent.com/102578151/179493140-52cc94fb-df91-4b25-ae1a-9d91e5456922.jpg)
 
 #### 저희가 만든 게임 예시입니다
-### 
-### Hello, this is a Unity 2D roguelike project.
+###    Hello, this is a Unity 2D roguelike project.
 ### To view the code, go to Assets - Scripts.
 ### The design branch is the PC version, and the Android branch is the Android version.
 ### Thanks.
